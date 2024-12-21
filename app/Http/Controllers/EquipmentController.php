@@ -7,12 +7,19 @@ use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
 {
+    private $resourceName = '備品';
+    private $routePath = '/equipment';
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('equipment.index');
+
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -20,7 +27,10 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -28,7 +38,10 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -36,7 +49,10 @@ class EquipmentController extends Controller
      */
     public function show(Equipment $equipment)
     {
-        //
+        return view('management.show', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -44,7 +60,10 @@ class EquipmentController extends Controller
      */
     public function edit(Equipment $equipment)
     {
-        //
+        return view('management.edit', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -52,7 +71,10 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, Equipment $equipment)
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -60,6 +82,17 @@ class EquipmentController extends Controller
      */
     public function destroy(Equipment $equipment)
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
+    }
+
+    public function confirm(Equipment $equipment)
+    {
+        return view('management.confirm', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 }

@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReportType;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class ReportTypeController extends Controller
+class UserController extends Controller
 {
-    private $resourceName = '報告種';
-    private $routePath = '/report/type';
+    private $resourceName = 'ユーザー';
+    private $routePath = '/user';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('management.index', [
@@ -46,7 +43,7 @@ class ReportTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ReportType $reportType)
+    public function show(User $user)
     {
         return view('management.show', [
             'resourceName' => $this->resourceName,
@@ -57,7 +54,7 @@ class ReportTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ReportType $reportType)
+    public function edit(User $user)
     {
         return view('management.edit', [
             'resourceName' => $this->resourceName,
@@ -68,7 +65,7 @@ class ReportTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ReportType $reportType)
+    public function update(Request $request, User $user)
     {
         return view('management.index', [
             'resourceName' => $this->resourceName,
@@ -79,7 +76,7 @@ class ReportTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ReportType $reportType)
+    public function destroy(User $user)
     {
         return view('management.index', [
             'resourceName' => $this->resourceName,
@@ -87,7 +84,7 @@ class ReportTypeController extends Controller
         ]);
     }
 
-    public function confirm(ReportType $equipment)
+    public function confirm(User $equipment)
     {
         return view('management.confirm', [
             'resourceName' => $this->resourceName,

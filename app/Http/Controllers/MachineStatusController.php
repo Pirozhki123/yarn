@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 
 class MachineStatusController extends Controller
 {
+    private $resourceName = '機械ステータス';
+    private $routePath = '/machine/status';
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -20,7 +26,10 @@ class MachineStatusController extends Controller
      */
     public function create()
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -28,7 +37,10 @@ class MachineStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -36,7 +48,10 @@ class MachineStatusController extends Controller
      */
     public function show(MachineStatus $machineStatus)
     {
-        //
+        return view('management.show', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -44,7 +59,10 @@ class MachineStatusController extends Controller
      */
     public function edit(MachineStatus $machineStatus)
     {
-        //
+        return view('management.edit', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -52,7 +70,10 @@ class MachineStatusController extends Controller
      */
     public function update(Request $request, MachineStatus $machineStatus)
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -60,6 +81,17 @@ class MachineStatusController extends Controller
      */
     public function destroy(MachineStatus $machineStatus)
     {
-        //
+        return view('management.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
+    }
+
+    public function confirm(MachineStatus $equipment)
+    {
+        return view('management.confirm', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 }

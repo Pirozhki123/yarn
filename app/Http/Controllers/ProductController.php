@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    private $resourceName = '製品';
+    private $routePath = '/product';
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('product.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -20,7 +26,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -28,7 +37,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('product.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -36,7 +48,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('product.show', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -44,7 +59,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('product.edit', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -52,7 +70,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        return view('product.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 
     /**
@@ -60,6 +81,17 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        return view('product.index', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
+    }
+
+    public function confirm(Product $equipment)
+    {
+        return view('product.confirm', [
+            'resourceName' => $this->resourceName,
+            'routePath' => $this->routePath,
+        ]);
     }
 }
