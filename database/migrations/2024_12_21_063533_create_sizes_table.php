@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('sizes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('symbol_id');
+            $table->string('size',255);
             $table->timestamps();
+
+            $table->foreign('symbol_id')->references('id')->on('symboles')->onDelete('cascade');
         });
     }
 
@@ -22,6 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::table('symboles', function (Blueprint $table) {
+            $table->dropForeign(['symbol_id']);
+        });
+
+        Schema::dropIfExists('sizes');
     }
 };
