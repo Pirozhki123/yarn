@@ -1,2 +1,2 @@
-<h1>{{$resourceName}}確認</h1>
-<a href="{{$routePath}}">{{$resourceName}}一覧</a>
+<h1>{{$viewInfo['name']}}確認</h1>
+<a href="{{$viewInfo['route']}}">{{$viewInfo['name']}}一覧</a>

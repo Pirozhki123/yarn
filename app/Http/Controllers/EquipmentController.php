@@ -7,18 +7,20 @@ use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
 {
-    private $resourceName = '備品';
-    private $routePath = '/equipment';
+    private $viewInfo = [
+        'key' => 'equipment',
+        'name' => '備品',
+        'route' => '/equipment',
+    ];
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
         return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItems' => Equipment::all()->toArray(),
         ]);
     }
 
@@ -27,9 +29,8 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.create', [
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 
@@ -38,61 +39,66 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Equipment::create([
+            'name' => $request['name'],
+            'quantity' => $request['quantity'],
         ]);
+
+        return redirect()->route('equipment.show', ['id' => $viewItem['id']]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Equipment $equipment)
+    public function show($id)
     {
+        $viewItem = Equipment::find($id);
         return view('management.show', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
+            'id' => $id,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Equipment $equipment)
+    public function edit($id)
     {
+        $viewItem = Equipment::find($id);
         return view('management.edit', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Equipment $equipment)
+    public function update(Request $request, $id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Equipment::where('id', $id)->update([
+            'name' => $request->name,
+            'quantity' => $request->quantity,
         ]);
+
+        return redirect()->route('equipment.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Equipment $equipment)
+    public function destroy($id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
-        ]);
+        Equipment::destroy($id);
+
+        return redirect()->route('equipment.index');
     }
 
     public function confirm(Equipment $equipment)
     {
         return view('management.confirm', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 }

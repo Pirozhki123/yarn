@@ -14,10 +14,13 @@ Route::get('/', function () {
 });
 
 Route::get('/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
-Route::get('/equipment/show', [EquipmentController::class, 'show'])->name('equipment.show');
+Route::get('/equipment/show/{id}', [EquipmentController::class, 'show'])->name('equipment.show');
 Route::get('/equipment/create', [EquipmentController::class, 'create'])->name('equipment.create');
-Route::get('/equipment/edit', [EquipmentController::class, 'edit'])->name('equipment.edit');
-Route::get('/equipment/confirm', [EquipmentController::class, 'confirm'])->name('equipment.confirm');
+Route::post('/equipment/create', [EquipmentController::class, 'store'])->name('equipment.store');
+Route::get('/equipment/edit/{id}', [EquipmentController::class, 'edit'])->name('equipment.edit');
+Route::put('/equipment/edit/{id}', [EquipmentController::class, 'update'])->name('equipment.update');
+Route::delete('/equipment/destroy/{id}', [EquipmentController::class, 'destroy'])->name('equipment.destroy');
+Route::get('/equipment/confirm/{id}', [EquipmentController::class, 'confirm'])->name('equipment.confirm');
 
 Route::get('/machine', [MachineController::class, 'index'])->name('machine.index');
 Route::get('/machine/show', [MachineController::class, 'show'])->name('machine.show');
