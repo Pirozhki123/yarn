@@ -8,4 +8,7 @@
     @case('machine_status')
         @include('management.form.machine_status')
         @break
+    @case('user')
+        @include('management.form.user')
+        @break
 @endswitch

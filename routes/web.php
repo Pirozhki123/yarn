@@ -59,7 +59,10 @@ Route::delete('/report_type/destroy/{id}', [ReportTypeController::class, 'destro
 Route::get('/report_type/confirm/{id}', [ReportTypeController::class, 'confirm'])->name('report_type.confirm');
 
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
-Route::get('/user/show', [UserController::class, 'show'])->name('user.show');
+Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
 Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
-Route::get('/user/confirm', [UserController::class, 'confirm'])->name('user.confirm');
+Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
+Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/user/edit/{id}', [UserController::class, 'update'])->name('user.update');
+Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/user/confirm/{id}', [UserController::class, 'confirm'])->name('user.confirm');

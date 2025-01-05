@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    private $resourceName = 'ユーザー';
-    private $routePath = '/user';
+    private  $viewInfo = [
+        'key' => 'user',
+        'name' => 'ユーザー',
+        'route' => '/user',
+    ];
 
     public function index()
     {
         return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItems' => User::all()->toArray(),
         ]);
     }
 
@@ -23,9 +26,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.create', [
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 
@@ -34,61 +36,73 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = User::create([
+            'number' => $request['number'],
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => $request['password'],
         ]);
+
+        return redirect()->route('user.show', ['id' => $viewItem['id']]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $viewItem = User::find($id);
         return view('management.show', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
+            'id' => $id,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
+        $viewItem = User::find($id);
         return view('management.edit', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = User::where('id', $id)->update([
+            'number' => $request->number,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
         ]);
+
+        return redirect()->route('user.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        // User::destroy($id);
+        $viewItem = User::where('id', $id)->update([
+            'delete_flag' => true,
         ]);
+
+        return redirect()->route('user.index');
     }
 
-    public function confirm(User $equipment)
+    public function confirm(Request $request, $id)
     {
         return view('management.confirm', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 }
