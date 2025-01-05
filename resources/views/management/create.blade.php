@@ -8,5 +8,8 @@
         @case('equipment')
             @include('management.form.equipment')
             @break
+        @case('report_type')
+            @include('management.form.report_type')
+            @break
     @endswitch
 </form>

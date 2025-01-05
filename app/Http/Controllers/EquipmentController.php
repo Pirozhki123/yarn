@@ -40,7 +40,7 @@ class EquipmentController extends Controller
     public function store(Request $request)
     {
         $viewItem = Equipment::create([
-            'name' => $request['name'],
+            'equipment_name' => $request['equipment_name'],
             'quantity' => $request['quantity'],
         ]);
 
@@ -78,7 +78,7 @@ class EquipmentController extends Controller
     public function update(Request $request, $id)
     {
         $viewItem = Equipment::where('id', $id)->update([
-            'name' => $request->name,
+            'equipment_name' => $request->equipment_name,
             'quantity' => $request->quantity,
         ]);
 

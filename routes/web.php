@@ -46,11 +46,14 @@ Route::get('/report/create', [ReportController::class, 'create'])->name('report.
 Route::get('/report/edit', [ReportController::class, 'edit'])->name('report.edit');
 Route::get('/report/confirm', [ReportController::class, 'confirm'])->name('report.confirm');
 
-Route::get('/report/type', [ReportTypeController::class, 'index'])->name('report_type.index');
-Route::get('/report/type/show', [ReportTypeController::class, 'show'])->name('report_type.show');
-Route::get('/report/type/create', [ReportTypeController::class, 'create'])->name('report_type.create');
-Route::get('/report/type/edit', [ReportTypeController::class, 'edit'])->name('report_type.edit');
-Route::get('/report/type/confirm', [ReportTypeController::class, 'confirm'])->name('report_type.confirm');
+Route::get('/report_type', [ReportTypeController::class, 'index'])->name('report_type.index');
+Route::get('/report_type/show/{id}', [ReportTypeController::class, 'show'])->name('report_type.show');
+Route::get('/report_type/create', [ReportTypeController::class, 'create'])->name('report_type.create');
+Route::post('/report_type/create', [ReportTypeController::class, 'store'])->name('report_type.store');
+Route::get('/report_type/edit/{id}', [ReportTypeController::class, 'edit'])->name('report_type.edit');
+Route::put('/report_type/edit/{id}', [ReportTypeController::class, 'update'])->name('report_type.update');
+Route::delete('/report_type/destroy/{id}', [ReportTypeController::class, 'destroy'])->name('report_type.destroy');
+Route::get('/report_type/confirm/{id}', [ReportTypeController::class, 'confirm'])->name('report_type.confirm');
 
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::get('/user/show', [UserController::class, 'show'])->name('user.show');

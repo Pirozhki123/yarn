@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('report_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
+            $table->string('report_type',255);
             $table->timestamps();
         });
     }
