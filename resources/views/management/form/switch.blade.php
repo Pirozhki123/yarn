@@ -11,4 +11,7 @@
     @case('user')
         @include('management.form.user')
         @break
+    @case('product')
+        @include('management.form.product')
+        @break
 @endswitch

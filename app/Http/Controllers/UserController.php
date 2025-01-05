@@ -55,7 +55,6 @@ class UserController extends Controller
         return view('management.show', [
             'viewInfo' => $this->viewInfo,
             'viewItem' => $viewItem,
-            'id' => $id,
         ]);
     }
 

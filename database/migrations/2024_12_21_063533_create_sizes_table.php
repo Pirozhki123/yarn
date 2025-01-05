@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('size',255);
-            $table->string('memo',255);
+            $table->unsignedBigInteger('product_id');
+            $table->string('size');
             $table->timestamps();
+
+            $table->unique(['product_id', 'size'], 'unique_size');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -24,6 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
+        });
         Schema::dropIfExists('sizes');
     }
 };

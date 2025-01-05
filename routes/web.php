@@ -38,10 +38,17 @@ Route::delete('/machine_status/destroy/{id}', [MachineStatusController::class, '
 Route::get('/machine_status/confirm/{id}', [MachineStatusController::class, 'confirm'])->name('machine_status.confirm');
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-Route::get('/product/show', [ProductController::class, 'show'])->name('product.show');
+Route::get('/product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
-Route::get('/product/edit', [ProductController::class, 'edit'])->name('product.edit');
-Route::get('/product/confirm', [ProductController::class, 'confirm'])->name('product.confirm');
+Route::post('/product/create', [ProductController::class, 'store'])->name('product.store');
+Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+Route::put('/product/edit/{id}', [ProductController::class, 'update'])->name('product.update');
+Route::delete('/product/destroy/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+Route::get('/product/confirm/{id}', [ProductController::class, 'confirm'])->name('product.confirm');
+Route::post('/product/edit/{id}/size/create', [ProductController::class, 'sizeStore'])->name('size.store');
+Route::post('/product/edit/{id}/symbol/create', [ProductController::class, 'symbolStore'])->name('symbol.store');
+Route::delete('/product/destroy/size/create/{id}', [ProductController::class, 'sizeDestroy'])->name('size.destroy');
+Route::delete('/product/destroy/symbol/create/{id}', [ProductController::class, 'symbolDestroy'])->name('symbol.destroy');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 Route::get('/report/show', [ReportController::class, 'show'])->name('report.show');

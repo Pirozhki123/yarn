@@ -7,3 +7,4 @@
     @method('PUT')
     @include('management.form.switch')
 </form>
+@include('parts.view-item-relations')
