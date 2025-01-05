@@ -4,12 +4,5 @@
 <br>
 <form action="{{route($viewInfo['key'] . '.store')}}" method="POST" class="form">
     @csrf
-    @switch($viewInfo['key'])
-        @case('equipment')
-            @include('management.form.equipment')
-            @break
-        @case('report_type')
-            @include('management.form.report_type')
-            @break
-    @endswitch
+    @include('management.form.switch')
 </form>

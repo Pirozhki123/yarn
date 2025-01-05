@@ -41,7 +41,6 @@ class ReportTypeController extends Controller
     {
         $viewItem = ReportType::create([
             'report_type' => $request['report_type'],
-            'quantity' => $request['quantity'],
         ]);
 
         return redirect()->route('report_type.show', ['id' => $viewItem['id']]);
@@ -79,7 +78,6 @@ class ReportTypeController extends Controller
     {
         $viewItem = ReportType::where('id', $id)->update([
             'report_type' => $request->report_type,
-            'quantity' => $request->quantity,
         ]);
 
         return redirect()->route('report_type.show', ['id' => $id]);
@@ -95,7 +93,7 @@ class ReportTypeController extends Controller
         return redirect()->route('report_type.index');
     }
 
-    public function confirm(ReportType $report_type)
+    public function confirm(Request $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,

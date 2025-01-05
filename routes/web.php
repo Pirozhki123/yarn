@@ -28,11 +28,14 @@ Route::get('/machine/create', [MachineController::class, 'create'])->name('machi
 Route::get('/machine/edit', [MachineController::class, 'edit'])->name('machine.edit');
 Route::get('/machine/confirm', [MachineController::class, 'confirm'])->name('machine.confirm');
 
-Route::get('/machine/status', [MachineStatusController::class, 'index'])->name('machine_status.index');
-Route::get('/machine/status/show', [MachineStatusController::class, 'show'])->name('machine_status.show');
-Route::get('/machine/status/create', [MachineStatusController::class, 'create'])->name('machine_status.create');
-Route::get('/machine/status/edit', [MachineStatusController::class, 'edit'])->name('machine_status.edit');
-Route::get('/machine/status/confirm', [MachineStatusController::class, 'confirm'])->name('machine_status.confirm');
+Route::get('/machine_status', [MachineStatusController::class, 'index'])->name('machine_status.index');
+Route::get('/machine_status/show/{id}', [MachineStatusController::class, 'show'])->name('machine_status.show');
+Route::get('/machine_status/create', [MachineStatusController::class, 'create'])->name('machine_status.create');
+Route::post('/machine_status/create', [MachineStatusController::class, 'store'])->name('machine_status.store');
+Route::get('/machine_status/edit/{id}', [MachineStatusController::class, 'edit'])->name('machine_status.edit');
+Route::put('/machine_status/edit/{id}', [MachineStatusController::class, 'update'])->name('machine_status.update');
+Route::delete('/machine_status/destroy/{id}', [MachineStatusController::class, 'destroy'])->name('machine_status.destroy');
+Route::get('/machine_status/confirm/{id}', [MachineStatusController::class, 'confirm'])->name('machine_status.confirm');
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/show', [ProductController::class, 'show'])->name('product.show');

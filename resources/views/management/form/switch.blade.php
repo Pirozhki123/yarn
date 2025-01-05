@@ -1,0 +1,11 @@
+@switch($viewInfo['key'])
+    @case('equipment')
+        @include('management.form.equipment')
+        @break
+    @case('report_type')
+        @include('management.form.report_type')
+        @break
+    @case('machine_status')
+        @include('management.form.machine_status')
+        @break
+@endswitch
