@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('symboles', function (Blueprint $table) {
             $table->id();
             $table->string('symbol',255);
+            $table->string('memo',255);
             $table->timestamps();
         });
     }

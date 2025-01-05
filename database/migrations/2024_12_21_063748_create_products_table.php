@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('size_id');
+            $table->unsignedBigInteger('symbol_id');
             $table->string('product_number',255);
             $table->timestamps();
 
             $table->foreign('size_id')->references('id')->on('sizes')->onDelete('cascade');
+            $table->foreign('symbol_id')->references('id')->on('symboles')->onDelete('cascade');
         });
     }
 
@@ -28,6 +30,7 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign(['size_id']);
+            $table->dropForeign(['symbol_id']);
         });
 
         Schema::dropIfExists('products');
