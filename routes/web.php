@@ -23,10 +23,13 @@ Route::delete('/equipment/destroy/{id}', [EquipmentController::class, 'destroy']
 Route::get('/equipment/confirm/{id}', [EquipmentController::class, 'confirm'])->name('equipment.confirm');
 
 Route::get('/machine', [MachineController::class, 'index'])->name('machine.index');
-Route::get('/machine/show', [MachineController::class, 'show'])->name('machine.show');
+Route::get('/machine/show/{id}', [MachineController::class, 'show'])->name('machine.show');
 Route::get('/machine/create', [MachineController::class, 'create'])->name('machine.create');
-Route::get('/machine/edit', [MachineController::class, 'edit'])->name('machine.edit');
-Route::get('/machine/confirm', [MachineController::class, 'confirm'])->name('machine.confirm');
+Route::post('/machine/create', [MachineController::class, 'store'])->name('machine.store');
+Route::get('/machine/edit/{id}', [MachineController::class, 'edit'])->name('machine.edit');
+Route::put('/machine/edit/{id}', [MachineController::class, 'update'])->name('machine.update');
+Route::delete('/machine/destroy/{id}', [MachineController::class, 'destroy'])->name('machine.destroy');
+Route::get('/machine/confirm/{id}', [MachineController::class, 'confirm'])->name('machine.confirm');
 
 Route::get('/machine_status', [MachineStatusController::class, 'index'])->name('machine_status.index');
 Route::get('/machine_status/show/{id}', [MachineStatusController::class, 'show'])->name('machine_status.show');
@@ -55,6 +58,15 @@ Route::get('/report/show', [ReportController::class, 'show'])->name('report.show
 Route::get('/report/create', [ReportController::class, 'create'])->name('report.create');
 Route::get('/report/edit', [ReportController::class, 'edit'])->name('report.edit');
 Route::get('/report/confirm', [ReportController::class, 'confirm'])->name('report.confirm');
+
+Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+Route::get('/report/show/{id}', [ReportController::class, 'show'])->name('report.show');
+Route::get('/report/create', [ReportController::class, 'create'])->name('report.create');
+Route::post('/report/create', [ReportController::class, 'store'])->name('report.store');
+Route::get('/report/edit/{id}', [ReportController::class, 'edit'])->name('report.edit');
+Route::put('/report/edit/{id}', [ReportController::class, 'update'])->name('report.update');
+Route::delete('/report/destroy/{id}', [ReportController::class, 'destroy'])->name('report.destroy');
+Route::get('/report/confirm/{id}', [ReportController::class, 'confirm'])->name('report.confirm');
 
 Route::get('/report_type', [ReportTypeController::class, 'index'])->name('report_type.index');
 Route::get('/report_type/show/{id}', [ReportTypeController::class, 'show'])->name('report_type.show');

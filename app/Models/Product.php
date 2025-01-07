@@ -17,4 +17,9 @@ class Product extends Model
     {
         return $this->hasMany(Symbol::class);
     }
+
+    public function machines()
+    {
+        return $this->hasMany(Machine::class);
+    }
 }

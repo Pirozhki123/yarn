@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class MachineStatus extends Model
 {
     protected $guarded = ['id','created_at','updated_at'];
+
+    public function machines()
+    {
+        return $this->hasMany(Machine::class);
+    }
 }

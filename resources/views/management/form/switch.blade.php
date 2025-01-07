@@ -14,4 +14,10 @@
     @case('product')
         @include('management.form.product')
         @break
+    @case('report')
+        @include('management.form.report')
+        @break
+    @case('machine')
+        @include('management.form.machine')
+        @break
 @endswitch
