@@ -13,19 +13,14 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $product = Product::create([
-            'product_number' => 'B5631-250ZG',
-            'memo' => '廃番',
-        ]);
-        ProductSeeder::addSize($product);
-        ProductSeeder::addSymbol($product);
-
-        $product = Product::create([
-            'product_number' => 'B5631-270ZG',
-            'memo' => '廃番',
-        ]);
-        ProductSeeder::addSize($product);
-        ProductSeeder::addSymbol($product);
+        for($i = 1; $i <= 30; $i++) {
+            $product = Product::create([
+                'product_number' => chr(mt_rand(65, 90)) . mt_rand(1,9) . mt_rand(0,9) . mt_rand(0,9) . "-" .  mt_rand(0,9) . mt_rand(0,9) . mt_rand(0,9) . mt_rand(0,9),
+                'memo' => 'seed',
+            ]);
+            ProductSeeder::addSize($product);
+            ProductSeeder::addSymbol($product);
+        }
     }
 
     public function addSize($product): void

@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    private $resourceName = '報告';
-    private $routePath = '/report';
+    private $viewInfo = [
+        'key' => 'report',
+        'name' => '報告',
+        'route' => '/report',
+    ];
 
     /**
      * Display a listing of the resource.
@@ -16,8 +19,8 @@ class ReportController extends Controller
     public function index()
     {
         return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItems' => Report::all()->toArray(),
         ]);
     }
 
@@ -26,9 +29,8 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.create', [
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 
@@ -37,61 +39,66 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Report::create([
+            'equipment_name' => $request['equipment_name'],
+            'quantity' => $request['quantity'],
         ]);
+
+        return redirect()->route('equipment.show', ['id' => $viewItem['id']]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Report $report)
+    public function show($id)
     {
+        $viewItem = Report::find($id);
         return view('management.show', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
+            'id' => $id,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Report $report)
+    public function edit($id)
     {
+        $viewItem = Report::find($id);
         return view('management.edit', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Report $report)
+    public function update(Request $request, $id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Report::where('id', $id)->update([
+            'equipment_name' => $request->equipment_name,
+            'quantity' => $request->quantity,
         ]);
+
+        return redirect()->route('equipment.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Report $report)
+    public function destroy($id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
-        ]);
+        Report::destroy($id);
+
+        return redirect()->route('equipment.index');
     }
 
     public function confirm(Report $equipment)
     {
         return view('management.confirm', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 }
