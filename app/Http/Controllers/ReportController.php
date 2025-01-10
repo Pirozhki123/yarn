@@ -29,8 +29,53 @@ class ReportController extends Controller
      */
     public function create()
     {
+        $viewItemRelations = [
+            'user' => [
+                'key' => 'user',
+                'column' => 'name',
+                'name' => '報告者',
+                'values' => \App\Models\User::all(),
+            ],
+            'machine' => [
+                'key' => 'machine',
+                'column' => 'machine_number',
+                'name' => '機械',
+                'values' => \App\Models\Machine::all(),
+            ],
+            'report_type' => [
+                'key' => 'report_type',
+                'column' => 'report_type',
+                'name' => '報告種',
+                'values' => \App\Models\ReportType::all(),
+            ],
+            'product' => [
+                'key' => 'product',
+                'column' => 'product_number',
+                'name' => '品番',
+                'values' => \App\Models\Product::all(),
+            ],
+            'size' => [
+                'key' => 'size',
+                'column' => 'size',
+                'name' => 'サイズ',
+                'values' => \App\Models\Size::all(),
+            ],
+            'symbol' => [
+                'key' => 'symbol',
+                'column' => 'symbol',
+                'name' => '識別記号',
+                'values' => \App\Models\Symbol::all(),
+            ],
+            'equipment' => [
+                'key' => 'equipment',
+                'column' => 'equipment_name',
+                'name' => '備品',
+                'values' => \App\Models\Equipment::all(),
+            ]
+        ];
         return view('management.create', [
             'viewInfo' => $this->viewInfo,
+            'viewItemRelations' => $viewItemRelations,
         ]);
     }
 
@@ -39,12 +84,24 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
+        // TODO:productに関連づいたsize, symbolのみ登録できるようにする
         $viewItem = Report::create([
-            'equipment_name' => $request['equipment_name'],
-            'quantity' => $request['quantity'],
+            'user_id' => $request['user_id'],
+            'machine_id' => $request['machine_id'],
+            'report_type_id' => $request['report_type_id'],
+            'product_id' => $request['product_id'],
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
+            'report' => $request['report'],
         ]);
 
-        return redirect()->route('equipment.show', ['id' => $viewItem['id']]);
+        $viewItem->equipments()->attach([
+            $request['equipment_id'] => [
+                'quantity' => $request['quantity'],
+            ]
+        ]);
+
+        return redirect()->route('report.show', ['id' => $viewItem['id']]);
     }
 
     /**
@@ -65,10 +122,55 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = Report::find($id);
+        $viewItem = Report::with(['equipments'])->find($id);
+        $viewItemRelations = [
+            'user' => [
+                'key' => 'user',
+                'column' => 'name',
+                'name' => '報告者',
+                'values' => \App\Models\User::all(),
+            ],
+            'machine' => [
+                'key' => 'machine',
+                'column' => 'machine_number',
+                'name' => '機械',
+                'values' => \App\Models\Machine::all(),
+            ],
+            'report_type' => [
+                'key' => 'report_type',
+                'column' => 'report_type',
+                'name' => '報告種',
+                'values' => \App\Models\ReportType::all(),
+            ],
+            'product' => [
+                'key' => 'product',
+                'column' => 'product_number',
+                'name' => '品番',
+                'values' => \App\Models\Product::all(),
+            ],
+            'size' => [
+                'key' => 'size',
+                'column' => 'size',
+                'name' => 'サイズ',
+                'values' => \App\Models\Size::all(),
+            ],
+            'symbol' => [
+                'key' => 'symbol',
+                'column' => 'symbol',
+                'name' => '識別記号',
+                'values' => \App\Models\Symbol::all(),
+            ],
+            'equipment' => [
+                'key' => 'equipment',
+                'column' => 'equipment_name',
+                'name' => '備品',
+                'values' => \App\Models\Equipment::all(),
+            ]
+        ];
         return view('management.edit', [
             'viewInfo' => $this->viewInfo,
             'viewItem' => $viewItem,
+            'viewItemRelations' => $viewItemRelations,
         ]);
     }
 
@@ -77,12 +179,24 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $viewItem = Report::where('id', $id)->update([
-            'equipment_name' => $request->equipment_name,
-            'quantity' => $request->quantity,
+        $test = Report::where('id', $id)->first();
+        // $viewItem = Report::where('id', $id)->update([
+        $test->update([
+            'user_id' => $request['user_id'],
+            'machine_id' => $request['machine_id'],
+            'report_type_id' => $request['report_type_id'],
+            'product_id' => $request['product_id'],
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
+            'report' => $request['report'],
         ]);
 
-        return redirect()->route('equipment.show', ['id' => $id]);
+        $test->equipments()->sync([
+            $request['equipment_id'] =>
+            ['quantity' => $request['quantity']]
+        ]);
+
+        return redirect()->route('report.show', ['id' => $id]);
     }
 
     /**
@@ -92,7 +206,7 @@ class ReportController extends Controller
     {
         Report::destroy($id);
 
-        return redirect()->route('equipment.index');
+        return redirect()->route('report.index');
     }
 
     public function confirm(Report $equipment)

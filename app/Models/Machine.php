@@ -17,4 +17,9 @@ class Machine extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

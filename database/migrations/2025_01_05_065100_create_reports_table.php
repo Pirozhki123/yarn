@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->foreign('report_type_id')->references('id')->on('report_types')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -41,6 +42,9 @@ return new class extends Migration
         });
         Schema::table('report_types', function (Blueprint $table) {
             $table->dropForeign(['report_type_id']);
+        });
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
         });
         Schema::dropIfExists('reports');
     }

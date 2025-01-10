@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class ReportType extends Model
 {
     protected $guarded = ['id','created_at','updated_at'];
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

@@ -13,7 +13,15 @@ class ReportTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $report_types = ['機械切替', '検査結果', '記号変更', '修理・調整', '故障・不調', '生産終了'];
+        $report_types = [
+            '機械切替',
+            '検査結果',
+            '記号変更',
+            '修理・調整',
+            '故障・不調',
+            '生産終了',
+            '備品購入'
+        ];
         foreach($report_types as $report_type) {
             ReportType::create(['report_type' => $report_type]);
         }
