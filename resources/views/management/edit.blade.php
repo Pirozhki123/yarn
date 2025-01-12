@@ -1,4 +1,4 @@
-@vite(['resources/js/app.js'])
+@include('head')
 <h1>{{$viewInfo['name']}}編集</h1>
 <a href="{{$viewInfo['route']}}/confirm/{{$viewItem['id']}}">{{$viewInfo['name']}}確認</a>
 <a href="{{$viewInfo['route']}}">{{$viewInfo['name']}}一覧</a>
@@ -12,3 +12,4 @@
 @if($viewInfo['key'] == 'product')
     @include('parts.view-item-relations')
 @endif
+<script src="{{asset('/js/form.js')}}"></script>

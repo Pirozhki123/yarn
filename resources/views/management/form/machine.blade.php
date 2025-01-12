@@ -45,10 +45,10 @@
     @endforeach
 </select>
 <br>
-<label>サイズ</label>
-<p>TODO:非同期通信実装予定</p>
+<label for="size_id">サイズ</label>
+<select id="size_id" name="size_id"><option></option></select>
 <br>
-<label>識別記号</label>
-<p>TODO:非同期通信実装予定</p>
+<label for="symbol_id">識別記号</label>
+<select id="symbol_id" name="symbol_id"><option></option></select>
 <br>
 

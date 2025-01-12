@@ -1,4 +1,4 @@
-@vite(['resources/js/app.js'])
+@include('head')
 <h1>{{$viewInfo['name']}}追加</h1>
 <a href="{{$viewInfo['route']}}/confirm">{{$viewInfo['name']}}確認</a>
 <a href="{{$viewInfo['route']}}">{{$viewInfo['name']}}一覧</a>
@@ -8,3 +8,4 @@
     @include('management.form.' . $viewInfo['key'])
     <button type="submit" value="登録">登録</button>
 </form>
+<script src="{{asset('/js/form.js')}}"></script>

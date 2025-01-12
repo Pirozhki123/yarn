@@ -53,8 +53,8 @@ class ReportController extends Controller
             'machine_id' => $request['machine_id'],
             'report_type_id' => $request['report_type_id'],
             'product_id' => $request['product_id'],
-            'size_id' => 1, // FIXME:
-            'symbol_id' => 1, // FIXME:
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
             'report' => $request['report'],
         ]);
 
@@ -112,8 +112,8 @@ class ReportController extends Controller
             'machine_id' => $request['machine_id'],
             'report_type_id' => $request['report_type_id'],
             'product_id' => $request['product_id'],
-            'size_id' => 1, // FIXME:
-            'symbol_id' => 1, // FIXME:
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
             'report' => $request['report'],
         ]);
 

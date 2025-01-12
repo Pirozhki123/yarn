@@ -5,6 +5,8 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MachineStatusController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\SymbolController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportTypeController;
 use App\Http\Controllers\UserController;
@@ -52,6 +54,9 @@ Route::post('/product/edit/{id}/size/create', [ProductController::class, 'sizeSt
 Route::post('/product/edit/{id}/symbol/create', [ProductController::class, 'symbolStore'])->name('symbol.store');
 Route::delete('/product/destroy/size/create/{id}', [ProductController::class, 'sizeDestroy'])->name('size.destroy');
 Route::delete('/product/destroy/symbol/create/{id}', [ProductController::class, 'symbolDestroy'])->name('symbol.destroy');
+
+Route::get('/size/{id}', [SizeController::class, 'index'])->name('size.index');
+Route::get('/symbol/{id}', [SymbolController::class, 'index'])->name('symbol.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 Route::get('/report/show', [ReportController::class, 'show'])->name('report.show');

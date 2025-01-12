@@ -1,4 +1,4 @@
-@vite(['resources/js/app.js'])
+@include('head')
 <h1>{{$viewInfo['name']}}一覧</h1>
 <a href="{{$viewInfo['route']}}/create">{{$viewInfo['name']}}追加</a>
 <a href="/">ダッシュボード</a>

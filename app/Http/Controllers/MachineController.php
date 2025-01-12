@@ -50,8 +50,8 @@ class MachineController extends Controller
         $viewItem = Machine::create([
             'machine_status_id' => $request['machine_status_id'],
             'product_id' => $request['product_id'],
-            'size_id' => 1, // FIXME:
-            'symbol_id' => 1, // FIXME:
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
             'machine_name' => $request['machine_name'],
             'manufacture' => $request['manufacture'],
             'needle_count' => $request['needle_count'],
@@ -104,8 +104,8 @@ class MachineController extends Controller
         $viewItem = Machine::where('id', $id)->update([
             'machine_status_id' => $request['machine_status_id'],
             'product_id' => $request['product_id'],
-            'size_id' => 1, // FIXME:
-            'symbol_id' => 1, // FIXME:
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
             'machine_name' => $request['machine_name'],
             'manufacture' => $request['manufacture'],
             'needle_count' => $request['needle_count'],
