@@ -1,3 +1,4 @@
+@vite(['resources/js/app.js'])
 <h1>{{$viewInfo['name']}}編集</h1>
 <a href="{{$viewInfo['route']}}/confirm/{{$viewItem['id']}}">{{$viewInfo['name']}}確認</a>
 <a href="{{$viewInfo['route']}}">{{$viewInfo['name']}}一覧</a>

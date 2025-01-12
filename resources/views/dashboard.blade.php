@@ -1,3 +1,4 @@
+@vite(['resources/js/app.js'])
 <h1>ダッシュボード</h1>
 <a href="/user">ユーザー</a>
 <a href="/equipment">備品</a>
