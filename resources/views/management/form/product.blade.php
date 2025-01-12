@@ -4,4 +4,3 @@
 <label for="memo">備考</label>
 <textarea id="memo" name="memo">{{old('memo', $viewItem['memo'] ?? null)}}</textarea>
 <br>
-<button type="submit" value="登録">登録</button>

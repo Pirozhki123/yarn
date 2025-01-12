@@ -4,5 +4,6 @@
 <br>
 <form action="{{route($viewInfo['key'] . '.store')}}" method="POST" class="form">
     @csrf
-    @include('management.form.switch')
+    @include('management.form.' . $viewInfo['key'])
+    <button type="submit" value="登録">登録</button>
 </form>

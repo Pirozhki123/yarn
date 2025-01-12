@@ -5,7 +5,8 @@
 <form action="{{route($viewInfo['key'] . '.update', $viewItem['id'])}}" method="POST" class="form">
     @csrf
     @method('PUT')
-    @include('management.form.switch')
+    @include('management.form.' . $viewInfo['key'])
+    <button type="submit" value="変更">変更</button>
 </form>
 @if($viewInfo['key'] == 'product')
     @include('parts.view-item-relations')

@@ -4,4 +4,3 @@
 <label for="quantity">在庫数</label>
 <input type="number" id="quantity" name="quantity" value="{{old('quantity', $viewItem['quantity'] ?? null)}}">
 <br>
-<button type="submit" value="登録">登録</button>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Machine;
+use App\Models\MachineStatus;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
@@ -29,35 +31,14 @@ class MachineController extends Controller
      */
     public function create()
     {
-        $viewItemRelations = [
-            'machine_status' => [
-                'key' => 'machine_status',
-                'column' => 'machine_status',
-                'name' => '稼働状況',
-                'values' => \App\Models\MachineStatus::all(),
-            ],
-            'product' => [
-                'key' => 'product',
-                'column' => 'product_number',
-                'name' => '品番',
-                'values' => \App\Models\Product::all(),
-            ],
-            'size' => [
-                'key' => 'size',
-                'column' => 'size',
-                'name' => 'サイズ',
-                'values' => \App\Models\Size::all(),
-            ],
-            'symbol' => [
-                'key' => 'symbol',
-                'column' => 'symbol',
-                'name' => '識別記号',
-                'values' => \App\Models\Symbol::all(),
-            ]
+        $formInfo = [
+            'machine_statuses' => MachineStatus::all(),
+            'products' => Product::all(),
         ];
+
         return view('management.create', [
             'viewInfo' => $this->viewInfo,
-            'viewItemRelations' => $viewItemRelations,
+            'formInfo' => $formInfo,
         ]);
     }
 
@@ -69,8 +50,8 @@ class MachineController extends Controller
         $viewItem = Machine::create([
             'machine_status_id' => $request['machine_status_id'],
             'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
+            'size_id' => 1, // FIXME:
+            'symbol_id' => 1, // FIXME:
             'machine_name' => $request['machine_name'],
             'manufacture' => $request['manufacture'],
             'needle_count' => $request['needle_count'],
@@ -99,37 +80,19 @@ class MachineController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = Machine::find($id);
-        $viewItemRelations = [
-            'machine_status' => [
-                'key' => 'machine_status',
-                'column' => 'machine_status',
-                'name' => '稼働状況',
-                'values' => \App\Models\MachineStatus::all(),
-            ],
-            'product' => [
-                'key' => 'product',
-                'column' => 'product_number',
-                'name' => '品番',
-                'values' => \App\Models\Product::all(),
-            ],
-            'size' => [
-                'key' => 'size',
-                'column' => 'size',
-                'name' => 'サイズ',
-                'values' => \App\Models\Size::all(),
-            ],
-            'symbol' => [
-                'key' => 'symbol',
-                'column' => 'symbol',
-                'name' => '識別記号',
-                'values' => \App\Models\Symbol::all(),
-            ]
+        $formInfo = [
+            'machine_statuses' => MachineStatus::all(),
+            'products' => Product::all(),
         ];
+        $viewItem = Machine::with([
+            'machine_status',
+            'product',
+        ])->find($id);
+
         return view('management.edit', [
             'viewInfo' => $this->viewInfo,
+            'formInfo' => $formInfo,
             'viewItem' => $viewItem,
-            'viewItemRelations' => $viewItemRelations,
         ]);
     }
 
@@ -141,8 +104,8 @@ class MachineController extends Controller
         $viewItem = Machine::where('id', $id)->update([
             'machine_status_id' => $request['machine_status_id'],
             'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
+            'size_id' => 1, // FIXME:
+            'symbol_id' => 1, // FIXME:
             'machine_name' => $request['machine_name'],
             'manufacture' => $request['manufacture'],
             'needle_count' => $request['needle_count'],

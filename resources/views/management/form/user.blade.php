@@ -10,4 +10,3 @@
 <label for="name">氏名</label>
 <input type="text" id="name" name="name" value="{{old('name', $viewItem['name'] ?? null)}}">
 <br>
-<button type="submit" value="登録">登録</button>

@@ -29,53 +29,16 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $viewItemRelations = [
-            'user' => [
-                'key' => 'user',
-                'column' => 'name',
-                'name' => '報告者',
-                'values' => \App\Models\User::all(),
-            ],
-            'machine' => [
-                'key' => 'machine',
-                'column' => 'machine_number',
-                'name' => '機械',
-                'values' => \App\Models\Machine::all(),
-            ],
-            'report_type' => [
-                'key' => 'report_type',
-                'column' => 'report_type',
-                'name' => '報告種',
-                'values' => \App\Models\ReportType::all(),
-            ],
-            'product' => [
-                'key' => 'product',
-                'column' => 'product_number',
-                'name' => '品番',
-                'values' => \App\Models\Product::all(),
-            ],
-            'size' => [
-                'key' => 'size',
-                'column' => 'size',
-                'name' => 'サイズ',
-                'values' => \App\Models\Size::all(),
-            ],
-            'symbol' => [
-                'key' => 'symbol',
-                'column' => 'symbol',
-                'name' => '識別記号',
-                'values' => \App\Models\Symbol::all(),
-            ],
-            'equipment' => [
-                'key' => 'equipment',
-                'column' => 'equipment_name',
-                'name' => '備品',
-                'values' => \App\Models\Equipment::all(),
-            ]
+        $formInfo = [
+            'users' => \App\Models\User::all(),
+            'machines' => \App\Models\Machine::all(),
+            'report_types' => \App\Models\ReportType::all(),
+            'products' => \App\Models\Product::all(),
+            'equipment' => \App\Models\Equipment::all(),
         ];
         return view('management.create', [
             'viewInfo' => $this->viewInfo,
-            'viewItemRelations' => $viewItemRelations,
+            'formInfo' => $formInfo,
         ]);
     }
 
@@ -90,8 +53,8 @@ class ReportController extends Controller
             'machine_id' => $request['machine_id'],
             'report_type_id' => $request['report_type_id'],
             'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
+            'size_id' => 1, // FIXME:
+            'symbol_id' => 1, // FIXME:
             'report' => $request['report'],
         ]);
 
@@ -122,55 +85,18 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = Report::with(['equipments'])->find($id);
-        $viewItemRelations = [
-            'user' => [
-                'key' => 'user',
-                'column' => 'name',
-                'name' => '報告者',
-                'values' => \App\Models\User::all(),
-            ],
-            'machine' => [
-                'key' => 'machine',
-                'column' => 'machine_number',
-                'name' => '機械',
-                'values' => \App\Models\Machine::all(),
-            ],
-            'report_type' => [
-                'key' => 'report_type',
-                'column' => 'report_type',
-                'name' => '報告種',
-                'values' => \App\Models\ReportType::all(),
-            ],
-            'product' => [
-                'key' => 'product',
-                'column' => 'product_number',
-                'name' => '品番',
-                'values' => \App\Models\Product::all(),
-            ],
-            'size' => [
-                'key' => 'size',
-                'column' => 'size',
-                'name' => 'サイズ',
-                'values' => \App\Models\Size::all(),
-            ],
-            'symbol' => [
-                'key' => 'symbol',
-                'column' => 'symbol',
-                'name' => '識別記号',
-                'values' => \App\Models\Symbol::all(),
-            ],
-            'equipment' => [
-                'key' => 'equipment',
-                'column' => 'equipment_name',
-                'name' => '備品',
-                'values' => \App\Models\Equipment::all(),
-            ]
+        $formInfo = [
+            'users' => \App\Models\User::all(),
+            'machines' => \App\Models\Machine::all(),
+            'report_types' => \App\Models\ReportType::all(),
+            'products' => \App\Models\Product::all(),
+            'equipment' => \App\Models\Equipment::all(),
         ];
+        $viewItem = Report::with(['equipments'])->find($id);
         return view('management.edit', [
             'viewInfo' => $this->viewInfo,
+            'formInfo' => $formInfo,
             'viewItem' => $viewItem,
-            'viewItemRelations' => $viewItemRelations,
         ]);
     }
 
@@ -186,8 +112,8 @@ class ReportController extends Controller
             'machine_id' => $request['machine_id'],
             'report_type_id' => $request['report_type_id'],
             'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
+            'size_id' => 1, // FIXME:
+            'symbol_id' => 1, // FIXME:
             'report' => $request['report'],
         ]);
 

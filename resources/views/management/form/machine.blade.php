@@ -11,18 +11,43 @@
 <input type="text" id="needle_type" name="needle_type" value="{{old('needle_type', $viewItem['needle_type'] ?? null)}}">
 <br>
 <label>機械番号</label>
-<input type="number" id="lane_number" name="lane_number" value="{{old('lane_number', $viewItem['lane_number'] ?? null)}}">-
-<input type="number" id="machine_number" name="machine_number" value="{{old('machine_number', $viewItem['machine_number'] ?? null)}}">
+<select id="lane_number", name="lane_number">
+    @for($i = 1; $i <= 6; $i++)
+        <option value="{{$i}}" {{old('lane_number', $viewItem['lane_number'] ?? null) == $i ? 'selected' : null;}}>
+            {{$i}}
+        </option>
+    @endfor
+</select>
+-
+<select id="machine_number", name="machine_number">
+    @for($i = 1; $i <= 70; $i++)
+        <option value="{{$i}}" {{old('machine_number', $viewItem['machine_number'] ?? null) == $i ? 'selected' : null;}}>
+            {{$i}}
+        </option>
+    @endfor
+</select>
 <br>
-@foreach($viewItemRelations as $viewItemRelation)
-    <label for="{{$viewItemRelation['key'] . '_id'}}">{{$viewItemRelation['name']}}</label>
-    <select name="{{$viewItemRelation['key'] . '_id'}}">
-        @foreach($viewItemRelation['values'] as $value)
-            <option value={{$value['id']}} {{old('{{$viewItemRelation['key'] . '_id'}}', $value['id']) == $viewItem[$viewItemRelation['key'] . '_id'] ? 'selected' : '';}}>
-                {{$value[$viewItemRelation['column']]}}
-            </option>
-        @endforeach
-    </select>
-    <br>
-@endforeach
-<button type="submit" value="登録">登録</button>
+<label for="machine_status_id">稼働状況</label>
+<select id ="machine_status_id" name="machine_status_id">
+    @foreach($formInfo['machine_statuses'] as $machine_status)
+        <option value="{{$machine_status['id']}}" {{old('machine_status_id', $viewItem['machine_status_id'] ?? null) == $machine_status['id'] ? 'selected' : null;}}>
+            {{$machine_status['machine_status']}}
+        </option>
+    @endforeach
+</select>
+<br>
+<label for="product_id">品番</label>
+<select id ="product_id" name="product_id">
+    @foreach($formInfo['products'] as $product)
+        <option value="{{$product['id']}}" {{old('product_id', $viewItem['product_id'] ?? null) == $product['id'] ? 'selected' : null;}}>
+            {{$product['product_number']}}
+        </option>
+    @endforeach
+</select>
+<br>
+<label>サイズ</label>
+<p>TODO:非同期通信実装予定</p>
+<br>
+<label>識別記号</label>
+<p>TODO:非同期通信実装予定</p>
+<br>
