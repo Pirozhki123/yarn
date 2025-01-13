@@ -47,7 +47,6 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO:productに関連づいたsize, symbolのみ登録できるようにする
         $viewItem = Report::create([
             'user_id' => $request['user_id'],
             'machine_id' => $request['machine_id'],
@@ -57,12 +56,11 @@ class ReportController extends Controller
             'symbol_id' => $request['symbol_id'],
             'report' => $request['report'],
         ]);
-
-        $viewItem->equipments()->attach([
-            $request['equipment_id'] => [
-                'quantity' => $request['quantity'],
-            ]
-        ]);
+        $equipments = [];
+        foreach($request['equipment_id'] as $key => $equipment_id) {
+            $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+        }
+        $viewItem->equipments()->attach($equipments);
 
         return redirect()->route('report.show', ['id' => $viewItem['id']]);
     }
@@ -117,10 +115,12 @@ class ReportController extends Controller
             'report' => $request['report'],
         ]);
 
-        $test->equipments()->sync([
-            $request['equipment_id'] =>
-            ['quantity' => $request['quantity']]
-        ]);
+
+        $equipments = [];
+        foreach($request['equipment_id'] as $key => $equipment_id) {
+            $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+        }
+        $test->equipments()->sync($equipments);
 
         return redirect()->route('report.show', ['id' => $id]);
     }

@@ -8,6 +8,16 @@ $('#product_id').on('change', function() {
     resetSymbol();
 })
 
+$(document).on('click', '.add_equipment_button', function() {
+    if($('.equipment_sub_group').length >= 10) return false;
+    $('.equipment_sub_group:last').clone().appendTo('.equipment_group');
+})
+
+$(document).on('click', '.delete_equipment_button', function() {
+    if($('.equipment_sub_group').length <= 1) return false;
+    $('.equipment_sub_group:last').remove();
+})
+
 function resetSize() {
     $('select#size_id option').remove();
     var product_id = $('#product_id').val();
@@ -17,8 +27,8 @@ function resetSize() {
         data: product_id,
     }).done(function (sizes) {
         for(let key in sizes) {
-            // TODO:値保持
-            $('#size_id').append('<option value="' + sizes[key]['id'] +'">' + sizes[key]['size'] + '</option>');
+            var selected = $('#old_size_id').val() == sizes[key]['id'] ? 'selected' : null;
+            $('#size_id').append('<option value="' + sizes[key]['id'] +'" ' + selected + '>' + sizes[key]['size'] + '</option>');
         }
     }).fail(function () {
         alert('サイズの取得に失敗しました');
@@ -36,8 +46,8 @@ function resetSymbol() {
         data: product_id,
     }).done(function (symbols) {
         for(let key in symbols) {
-            // TODO:値保持
-            $('#symbol_id').append('<option value="' + symbols[key]['id'] +'">' + symbols[key]['symbol'] + '</option>');
+            var selected = $('#old_symbol_id').val() == symbols[key]['id'] ? 'selected' : null;
+            $('#symbol_id').append('<option value="' + symbols[key]['id'] +'" ' + selected + '>' + symbols[key]['symbol'] + '</option>');
         }
     }).fail(function () {
         alert('識別記号の取得に失敗しました');

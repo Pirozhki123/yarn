@@ -35,21 +35,31 @@
 </select>
 <br>
 <label for="size_id">サイズ</label>
+<input type="hidden" id="old_size_id" value="{{old('size_id', $viewItem['size_id'] ?? null)}}">
 <select id="size_id" name="size_id"><option></option></select>
 <br>
 <label for="symbol_id">識別記号</label>
+<input type="hidden" id="old_symbol_id" value="{{old('symbol_id', $viewItem['symbol_id'] ?? null)}}">
 <select id="symbol_id" name="symbol_id"><option></option></select>
 <br>
-<label for="equipment">交換備品</label>
-<select id="equipment" name="equipment_id">
-    @foreach($formInfo['equipment'] as $equipment)
-        <option value="{{$equipment['id']}}" {{old('equipment_id', $viewItem['equipment_id'] ?? null) == $equipment['id'] ? 'selected' : null}}>
-            {{$equipment['equipment_name']}}
-        </option>
-    @endforeach
-</select>
-<label for="quantity">交換数</label>
-<input type="number" id="quantity" name="quantity" value="{{old('quantity', $viewItem['quantity'] ?? null)}}"><br>
+<div class="equipment_group">
+    <label>備品交換</label>
+    <input type="button" class="add_equipment_button" value="追加">
+    <input type="button" class="delete_equipment_button" value="削除">
+    <div class="equipment_sub_group">
+        <label for="equipment[]">備品名</label>
+        <select id="equipment[]" name="equipment_id[]">
+            @foreach($formInfo['equipment'] as $equipment)
+                <option value="{{$equipment['id']}}" {{old('equipment_id', $viewItem['equipment_id'] ?? null) == $equipment['id'] ? 'selected' : null}}>
+                    {{$equipment['equipment_name']}}
+                </option>
+            @endforeach
+        </select>
+        <label for="quantity[]">交換数</label>
+        <input type="number" id="quantity[]" name="quantity[]" value="{{old('quantity', $viewItem['quantity'] ?? null)}}">
+        <br>
+    </div>
+</div>
 <label for="report">報告・作業内容</label><br>
 <textarea id="report" name="report">{{old('report', $viewItem['report'] ?? null)}}</textarea>
 <br>

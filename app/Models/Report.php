@@ -30,6 +30,6 @@ class Report extends Model
 
     public function equipments()
     {
-        return $this->belongsToMany(Equipment::class ,'report_equipment');
+        return $this->belongsToMany(Equipment::class ,'report_equipment')->withPivot('quantity');
     }
 }

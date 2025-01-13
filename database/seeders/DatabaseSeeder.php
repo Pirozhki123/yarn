@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'delete_flag' => false,
         // ]);
         $this->call([
+            EquipmentSeeder::class,
             ProductSeeder::class,
             MachineStatusSeeder::class,
             MachineSeeder::class,

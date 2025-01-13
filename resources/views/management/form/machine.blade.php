@@ -46,9 +46,10 @@
 </select>
 <br>
 <label for="size_id">サイズ</label>
+<input type="hidden" id="old_size_id" value="{{old('size_id', $viewItem['size_id'] ?? null)}}">
 <select id="size_id" name="size_id"><option></option></select>
 <br>
 <label for="symbol_id">識別記号</label>
+<input type="hidden" id="old_symbol_id" value="{{old('symbol_id', $viewItem['symbol_id'] ?? null)}}">
 <select id="symbol_id" name="symbol_id"><option></option></select>
 <br>
-
