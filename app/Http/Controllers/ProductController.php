@@ -54,23 +54,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Product::find($id);
-        $viewItemRelations = [
-            'size' => [
-                'key' => 'size',
-                'name' => 'サイズ',
-                'values' => $viewItem->sizes()->get()->toArray(),
-            ],
-            'symbol' => [
-                'key' => 'symbol',
-                'name' => '識別記号',
-                'values' => $viewItem->symbols()->get()->toArray(),
-            ]
-        ];
+        $viewItem = Product::with(['sizes', 'symbols'])->find($id);
         return view('management.show', [
             'viewInfo' => $this->viewInfo,
             'viewItem' => $viewItem,
-            'viewItemRelations' => $viewItemRelations,
         ]);
     }
 
@@ -80,22 +67,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         $viewItem = Product::with(['sizes', 'symbols'])->find($id);
-        $viewItemRelations = [
-            'size' => [
-                'key' => 'size',
-                'name' => 'サイズ',
-                'values' => $viewItem->sizes()->get()->toArray(),
-            ],
-            'symbol' => [
-                'key' => 'symbol',
-                'name' => '識別記号',
-                'values' => $viewItem->symbols()->get()->toArray(),
-            ]
-        ];
+
         return view('management.edit', [
             'viewInfo' => $this->viewInfo,
             'viewItem' => $viewItem,
-            'viewItemRelations' => $viewItemRelations,
         ]);
     }
 
@@ -104,7 +79,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $viewItem = Product::where('id', $id)->update([
+        Product::where('id', $id)->update([
             'product_number' => $request->product_number,
             'memo' => $request->memo,
         ]);
@@ -117,59 +92,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Product::destroy($id);
+        Product::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
-        return redirect()->route('product.index');
+        return back();
     }
 
     public function confirm(Request $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,
-        ]);
-    }
-
-    public function sizeStore(Request $request, $id)
-    {
-        $productItem = Product::where('id', $id)->first();
-        $productItem->sizes()->create([
-            'size' => $request->size,
-        ]);
-
-        return redirect()->route('product.show', [
-            'id' => $id,
-        ]);
-    }
-
-    public function symbolStore(Request $request, $id)
-    {
-        $productItem = Product::where('id', $id)->first();
-        $productItem->symbols()->create([
-            'symbol' => $request->symbol,
-        ]);
-
-        return redirect()->route('product.show', [
-            'id' => $id,
-        ]);
-    }
-
-    public function sizeDestroy($id)
-    {
-        $productId = Size::where('id', $id)->first()->product_id;
-        Size::destroy($id);
-
-        return redirect()->route('product.show', [
-            'id' => $productId,
-        ]);
-    }
-
-    public function symbolDestroy($id)
-    {
-        $productId = Symbol::where('id', $id)->first()->product_id;
-        Symbol::destroy($id);
-
-        return redirect()->route('product.show', [
-            'id' => $productId,
         ]);
     }
 }

@@ -103,9 +103,8 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $test = Report::where('id', $id)->first();
-        // $viewItem = Report::where('id', $id)->update([
-        $test->update([
+        $repost = Report::where('id', $id)->first();
+        $repost->update([
             'user_id' => $request['user_id'],
             'machine_id' => $request['machine_id'],
             'report_type_id' => $request['report_type_id'],
@@ -115,12 +114,11 @@ class ReportController extends Controller
             'report' => $request['report'],
         ]);
 
-
         $equipments = [];
         foreach($request['equipment_id'] as $key => $equipment_id) {
             $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
         }
-        $test->equipments()->sync($equipments);
+        $repost->equipments()->sync($equipments);
 
         return redirect()->route('report.show', ['id' => $id]);
     }
@@ -130,9 +128,11 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        Report::destroy($id);
+        Report::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
-        return redirect()->route('report.index');
+        return back();
     }
 
     public function confirm(Report $equipment)

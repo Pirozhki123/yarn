@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string("needle_type");
             $table->integer("lane_number");
             $table->integer("machine_number");
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
             $table->foreign('machine_status_id')->references('id')->on('machine_statuses')->onDelete('cascade');

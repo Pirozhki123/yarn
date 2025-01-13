@@ -77,7 +77,7 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $viewItem = Equipment::where('id', $id)->update([
+        Equipment::where('id', $id)->update([
             'equipment_name' => $request->equipment_name,
             'quantity' => $request->quantity,
         ]);
@@ -90,9 +90,11 @@ class EquipmentController extends Controller
      */
     public function destroy($id)
     {
-        Equipment::destroy($id);
+        Equipment::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
-        return redirect()->route('equipment.index');
+        return back();
     }
 
     public function confirm(Equipment $equipment)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Size;
+use App\Models\Product;
 
 class SizeController extends Controller
 {
@@ -28,9 +29,14 @@ class SizeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        Product::where('id', $id)->first()->sizes()->updateOrCreate(
+            ['size' => $request->size],
+            ['delete_flag' => false]
+        );
+
+        return back();
     }
 
     /**
@@ -62,6 +68,10 @@ class SizeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Size::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
+
+        return back();
     }
 }

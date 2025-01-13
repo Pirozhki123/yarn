@@ -101,7 +101,7 @@ class MachineController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $viewItem = Machine::where('id', $id)->update([
+        Machine::where('id', $id)->update([
             'machine_status_id' => $request['machine_status_id'],
             'product_id' => $request['product_id'],
             'size_id' => $request['size_id'],
@@ -122,9 +122,11 @@ class MachineController extends Controller
      */
     public function destroy($id)
     {
-        Machine::destroy($id);
+        Machine::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
-        return redirect()->route('machine.index');
+        return back();
     }
 
     public function confirm(Machine $equipment)

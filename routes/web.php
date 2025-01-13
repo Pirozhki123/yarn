@@ -50,13 +50,14 @@ Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('prod
 Route::put('/product/edit/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/product/destroy/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 Route::get('/product/confirm/{id}', [ProductController::class, 'confirm'])->name('product.confirm');
-Route::post('/product/edit/{id}/size/create', [ProductController::class, 'sizeStore'])->name('size.store');
-Route::post('/product/edit/{id}/symbol/create', [ProductController::class, 'symbolStore'])->name('symbol.store');
-Route::delete('/product/destroy/size/create/{id}', [ProductController::class, 'sizeDestroy'])->name('size.destroy');
-Route::delete('/product/destroy/symbol/create/{id}', [ProductController::class, 'symbolDestroy'])->name('symbol.destroy');
 
 Route::get('/size/{id}', [SizeController::class, 'index'])->name('size.index');
+Route::post('/size/store/{id}', [SizeController::class, 'store'])->name('size.store');
+Route::delete('/size/destroy/{id}', [SizeController::class, 'destroy'])->name('size.destroy');
+
 Route::get('/symbol/{id}', [SymbolController::class, 'index'])->name('symbol.index');
+Route::post('/symbol/store/{id}', [SymbolController::class, 'store'])->name('symbol.store');
+Route::delete('/symbol/destroy/{id}', [SymbolController::class, 'destroy'])->name('symbol.destroy');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 Route::get('/report/show', [ReportController::class, 'show'])->name('report.show');

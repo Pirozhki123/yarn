@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('product_number',255);
             $table->string('memo',255);
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }

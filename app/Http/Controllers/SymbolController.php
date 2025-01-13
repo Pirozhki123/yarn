@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Symbol;
+use App\Models\Product;
 
 class SymbolController extends Controller
 {
@@ -28,9 +29,14 @@ class SymbolController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        Product::where('id', $id)->first()->symbols()->updateOrCreate(
+            ['symbol' => $request->symbol],
+            ['delete_flag' => false]
+        );
+
+        return back();
     }
 
     /**
@@ -62,6 +68,10 @@ class SymbolController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Symbol::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
+
+        return back();
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('size_id');
             $table->unsignedBigInteger('symbol_id');
             $table->text('report');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

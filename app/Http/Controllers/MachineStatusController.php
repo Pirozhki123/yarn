@@ -39,9 +39,10 @@ class MachineStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $viewItem = MachineStatus::create([
-            'machine_status' => $request['machine_status'],
-        ]);
+        $viewItem = MachineStatus::updateOrCreate(
+            ['machine_status' => $request['machine_status']],
+            ['delete_flag' => false]
+        );
 
         return redirect()->route('machine_status.show', ['id' => $viewItem['id']]);
     }
@@ -87,7 +88,9 @@ class MachineStatusController extends Controller
      */
     public function destroy($id)
     {
-        MachineStatus::destroy($id);
+        MachineStatus::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
         return redirect()->route('machine_status.index');
     }

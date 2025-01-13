@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('equipment_name',255);
             $table->integer('quantity');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }

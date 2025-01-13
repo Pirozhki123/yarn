@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('report_types', function (Blueprint $table) {
             $table->id();
             $table->string('report_type',255);
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }

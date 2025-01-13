@@ -9,7 +9,4 @@
     @include('management.form.' . $viewInfo['key'])
     <button type="submit" value="変更">変更</button>
 </form>
-@if($viewInfo['key'] == 'product')
-    @include('parts.view-item-relations')
-@endif
 <script src="{{asset('/js/form.js')}}"></script>

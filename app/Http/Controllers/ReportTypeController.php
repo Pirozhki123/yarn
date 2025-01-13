@@ -39,9 +39,10 @@ class ReportTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $viewItem = ReportType::create([
-            'report_type' => $request['report_type'],
-        ]);
+        $viewItem = ReportType::updateOrCreate(
+            ['report_type' => $request['report_type']],
+            ['delete_flag' => false]
+        );
 
         return redirect()->route('report_type.show', ['id' => $viewItem['id']]);
     }
@@ -87,9 +88,11 @@ class ReportTypeController extends Controller
      */
     public function destroy($id)
     {
-        ReportType::destroy($id);
+        ReportType::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
-        return redirect()->route('report_type.index');
+        return back();
     }
 
     public function confirm(Request $request, $id)

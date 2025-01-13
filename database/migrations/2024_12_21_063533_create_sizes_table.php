@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->string('size');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
             $table->unique(['product_id', 'size'], 'unique_size');
