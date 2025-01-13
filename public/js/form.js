@@ -10,11 +10,13 @@ $('#product_id').on('change', function() {
 
 $(document).on('click', '.add_equipment_button', function() {
     if($('.equipment_sub_group').length >= 10) return false;
-    $('.equipment_sub_group:last').clone().appendTo('.equipment_group');
+    $.get('/report/load_equipment', function(data) {
+        $('.equipment_group').append(data);
+    })
 })
 
 $(document).on('click', '.delete_equipment_button', function() {
-    if($('.equipment_sub_group').length <= 1) return false;
+    if($('.equipment_sub_group').length <= 0) return false;
     $('.equipment_sub_group:last').remove();
 })
 

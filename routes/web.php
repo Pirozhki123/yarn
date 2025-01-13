@@ -64,6 +64,7 @@ Route::get('/report/show', [ReportController::class, 'show'])->name('report.show
 Route::get('/report/create', [ReportController::class, 'create'])->name('report.create');
 Route::get('/report/edit', [ReportController::class, 'edit'])->name('report.edit');
 Route::get('/report/confirm', [ReportController::class, 'confirm'])->name('report.confirm');
+Route::get('/report/load_equipment',[ReportController::class, 'load_equipment'])->name('report.load_equipment');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 Route::get('/report/show/{id}', [ReportController::class, 'show'])->name('report.show');

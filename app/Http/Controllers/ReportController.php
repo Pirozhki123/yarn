@@ -141,4 +141,13 @@ class ReportController extends Controller
             'viewInfo' => $this->viewInfo,
         ]);
     }
+
+    public function load_equipment()
+    {
+        return view('management.form.report_equipment', [
+            'formInfo' => [
+                'equipment' => \App\Models\Equipment::all(),
+            ],
+        ]);
+    }
 }

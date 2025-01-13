@@ -46,19 +46,14 @@
     <label>備品交換</label>
     <input type="button" class="add_equipment_button" value="追加">
     <input type="button" class="delete_equipment_button" value="削除">
-    <div class="equipment_sub_group">
-        <label for="equipment[]">備品名</label>
-        <select id="equipment[]" name="equipment_id[]">
-            @foreach($formInfo['equipment'] as $equipment)
-                <option value="{{$equipment['id']}}" {{old('equipment_id', $viewItem['equipment_id'] ?? null) == $equipment['id'] ? 'selected' : null}}>
-                    {{$equipment['equipment_name']}}
-                </option>
-            @endforeach
-        </select>
-        <label for="quantity[]">交換数</label>
-        <input type="number" id="quantity[]" name="quantity[]" value="{{old('quantity', $viewItem['quantity'] ?? null)}}">
-        <br>
-    </div>
+    @if(isset($viewItem['equipments']))
+        @foreach($viewItem['equipments'] as $equipment)
+            @include('management.form.report_equipment', [
+                'oldEquipmentId' => $equipment->pivot->equipment_id,
+                'oldQuantity' => $equipment->pivot->quantity,
+            ])
+        @endforeach
+    @endif
 </div>
 <label for="report">報告・作業内容</label><br>
 <textarea id="report" name="report">{{old('report', $viewItem['report'] ?? null)}}</textarea>
