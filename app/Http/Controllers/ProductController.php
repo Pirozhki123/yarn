@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -37,7 +37,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $viewItem = Product::create([
             'product_number' => $request['product_number'],
@@ -75,7 +75,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         Product::where('id', $id)->update([
             'product_number' => $request->product_number,
@@ -97,7 +97,7 @@ class ProductController extends Controller
         return back();
     }
 
-    public function confirm(Request $request, $id)
+    public function confirm(ProductRequest $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,

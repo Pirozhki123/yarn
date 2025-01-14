@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReportRequest;
 use App\Models\Report;
-use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
@@ -45,7 +45,7 @@ class ReportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ReportRequest $request)
     {
         $viewItem = Report::create([
             'user_id' => $request['user_id'],
@@ -101,7 +101,7 @@ class ReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(ReportRequest $request, $id)
     {
         $repost = Report::where('id', $id)->first();
         $repost->update([
@@ -135,7 +135,7 @@ class ReportController extends Controller
         return back();
     }
 
-    public function confirm(Report $equipment)
+    public function confirm(ReportRequest $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,

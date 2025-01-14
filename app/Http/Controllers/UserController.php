@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -34,7 +35,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $viewItem = User::create([
             'number' => $request['number'],
@@ -73,7 +74,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         $viewItem = User::where('id', $id)->update([
             'number' => $request->number,
@@ -90,7 +91,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // User::destroy($id);
         $viewItem = User::where('id', $id)->update([
             'delete_flag' => true,
         ]);
@@ -98,7 +98,7 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function confirm(Request $request, $id)
+    public function confirm(UserRequest $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipment;
-use Illuminate\Http\Request;
+use App\Http\Requests\EquipmentRequest;
 
 class EquipmentController extends Controller
 {
@@ -37,7 +37,7 @@ class EquipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EquipmentRequest $request)
     {
         $viewItem = Equipment::create([
             'equipment_name' => $request['equipment_name'],
@@ -75,7 +75,7 @@ class EquipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(EquipmentRequest $request, $id)
     {
         Equipment::where('id', $id)->update([
             'equipment_name' => $request->equipment_name,

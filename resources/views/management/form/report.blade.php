@@ -1,7 +1,7 @@
 <label for="user_id">ユーザー</label>
 <select id="user_id" name="user_id">
     @foreach($formInfo['users'] as $user)
-        <option value="{{$user['id']}}" {{old('user_id', $viewItem['user_id'] ?? null) == $user['id'] ? 'selected' : null;}}>
+        <option value="{{$user['id']}}" @selected(old('user_id', $viewItem['user_id'] ?? null) == $user['id'])>
             {{$user['name']}}
         </option>
     @endforeach
@@ -10,7 +10,7 @@
 <label for="report_type_id">報告種</label>
 <select id="report_type_id" name="report_type_id">
     @foreach($formInfo['report_types'] as $report_type)
-        <option value="{{$report_type['id']}}" {{old('report_type_id', $viewItem['report_type_id'] ?? null) == $report_type['id'] ? 'selected' : null}}>
+        <option value="{{$report_type['id']}}" @selected(old('report_type_id', $viewItem['report_type_id'] ?? null) == $report_type['id'])>
             {{$report_type['report_type']}}
         </option>
     @endforeach
@@ -19,7 +19,7 @@
 <label for="machine_id">機械番号</label>
 <select id="machine_id" name="machine_id">
     @foreach($formInfo['machines'] as $machine)
-        <option value="{{$machine['id']}}" {{old('machine_id', $viewItem['machine_id'] ?? null) == $machine['id'] ? 'selected' : null}}>
+        <option value="{{$machine['id']}}" @selected(old('machine_id', $viewItem['machine_id'] ?? null) == $machine['id'])>
             {{$machine['lane_number'] . "-" . $machine['machine_number']}}
         </option>
     @endforeach
@@ -28,7 +28,7 @@
 <label for="product_id">品番</label>
 <select id="product_id" name="product_id">
     @foreach($formInfo['products'] as $product)
-        <option value="{{$product['id']}}" {{old('product_id', $viewItem['product_id'] ?? null) == $product['id'] ? 'selected' : null}}>
+        <option value="{{$product['id']}}" @selected(old('product_id', $viewItem['product_id'] ?? null) == $product['id'])>
             {{$product['product_number']}}
         </option>
     @endforeach
@@ -46,7 +46,14 @@
     <label>備品交換</label>
     <input type="button" class="add_equipment_button" value="追加">
     <input type="button" class="delete_equipment_button" value="削除">
-    @if(isset($viewItem['equipments']))
+    @if(old('equipment_id'))
+        @foreach(old('equipment_id') as $key => $oldEquipmentId)
+            @include('management.form.report_equipment', [
+                'oldEquipmentId' => $oldEquipmentId,
+                'oldQuantity' => old('quantity.' . $key),
+            ])
+        @endforeach
+    @elseif(isset($viewItem['equipments']))
         @foreach($viewItem['equipments'] as $equipment)
             @include('management.form.report_equipment', [
                 'oldEquipmentId' => $equipment->pivot->equipment_id,

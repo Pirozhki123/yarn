@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SymbolRequest;
 use App\Models\Symbol;
 use App\Models\Product;
 
@@ -29,7 +29,7 @@ class SymbolController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public function store(SymbolRequest $request, $id)
     {
         Product::where('id', $id)->first()->symbols()->updateOrCreate(
             ['symbol' => $request->symbol],
@@ -58,7 +58,7 @@ class SymbolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SymbolRequest $request, string $id)
     {
         //
     }

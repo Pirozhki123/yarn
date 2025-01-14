@@ -13,7 +13,7 @@
 <label>機械番号</label>
 <select id="lane_number", name="lane_number">
     @for($i = 1; $i <= 6; $i++)
-        <option value="{{$i}}" {{old('lane_number', $viewItem['lane_number'] ?? null) == $i ? 'selected' : null;}}>
+        <option value="{{$i}}" @selected(old('lane_number', $viewItem['lane_number'] ?? null) == $i)>
             {{$i}}
         </option>
     @endfor
@@ -21,7 +21,7 @@
 -
 <select id="machine_number", name="machine_number">
     @for($i = 1; $i <= 70; $i++)
-        <option value="{{$i}}" {{old('machine_number', $viewItem['machine_number'] ?? null) == $i ? 'selected' : null;}}>
+        <option value="{{$i}}" @selected(old('machine_number', $viewItem['machine_number'] ?? null) == $i)>
             {{$i}}
         </option>
     @endfor
@@ -30,7 +30,7 @@
 <label for="machine_status_id">稼働状況</label>
 <select id ="machine_status_id" name="machine_status_id">
     @foreach($formInfo['machine_statuses'] as $machine_status)
-        <option value="{{$machine_status['id']}}" {{old('machine_status_id', $viewItem['machine_status_id'] ?? null) == $machine_status['id'] ? 'selected' : null;}}>
+        <option value="{{$machine_status['id']}}" @selected(old('machine_status_id', $viewItem['machine_status_id'] ?? null) == $machine_status['id'])>
             {{$machine_status['machine_status']}}
         </option>
     @endforeach
@@ -39,7 +39,7 @@
 <label for="product_id">品番</label>
 <select id ="product_id" name="product_id">
     @foreach($formInfo['products'] as $product)
-        <option value="{{$product['id']}}" {{old('product_id', $viewItem['product_id'] ?? null) == $product['id'] ? 'selected' : null;}}>
+        <option value="{{$product['id']}}" @selected(old('product_id', $viewItem['product_id'] ?? null) == $product['id'])>
             {{$product['product_number']}}
         </option>
     @endforeach

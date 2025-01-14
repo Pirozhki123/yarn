@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MachineStatus;
-use Illuminate\Http\Request;
+use App\Http\Requests\MachineStatusRequest;
 
 class MachineStatusController extends Controller
 {
@@ -37,7 +37,7 @@ class MachineStatusController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MachineStatusRequest $request)
     {
         $viewItem = MachineStatus::updateOrCreate(
             ['machine_status' => $request['machine_status']],
@@ -74,7 +74,7 @@ class MachineStatusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(MachineStatusRequest $request, $id)
     {
         $viewItem = MachineStatus::where('id', $id)->update([
             'machine_status' => $request->machine_status,
@@ -95,7 +95,7 @@ class MachineStatusController extends Controller
         return redirect()->route('machine_status.index');
     }
 
-    public function confirm(Request $request, $id)
+    public function confirm(MachineStatusRequest $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,

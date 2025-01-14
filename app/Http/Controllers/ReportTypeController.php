@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportType;
-use Illuminate\Http\Request;
+use App\Http\Requests\ReportTypeRequest;
 
 class ReportTypeController extends Controller
 {
@@ -37,7 +37,7 @@ class ReportTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ReportTypeRequest $request)
     {
         $viewItem = ReportType::updateOrCreate(
             ['report_type' => $request['report_type']],
@@ -74,7 +74,7 @@ class ReportTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(ReportTypeRequest $request, $id)
     {
         $viewItem = ReportType::where('id', $id)->update([
             'report_type' => $request->report_type,
@@ -95,7 +95,7 @@ class ReportTypeController extends Controller
         return back();
     }
 
-    public function confirm(Request $request, $id)
+    public function confirm(ReportTypeRequest $request, $id)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,

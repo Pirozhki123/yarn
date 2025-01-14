@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Machine;
 use App\Models\MachineStatus;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\MachineRequest;
 
 class MachineController extends Controller
 {
@@ -45,7 +45,7 @@ class MachineController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MachineRequest $request)
     {
         $viewItem = Machine::create([
             'machine_status_id' => $request['machine_status_id'],
@@ -99,7 +99,7 @@ class MachineController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(MachineRequest $request, $id)
     {
         Machine::where('id', $id)->update([
             'machine_status_id' => $request['machine_status_id'],
