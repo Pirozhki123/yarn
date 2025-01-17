@@ -3,21 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
-    private $resourceName = '製品';
-    private $routePath = '/product';
+    private  $viewInfo = [
+        'key' => 'product',
+        'name' => '製品',
+        'route' => '/product',
+    ];
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('product.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.index', [
+            'viewInfo' => $this->viewInfo,
+            'viewItems' => Product::all()->toArray(),
         ]);
     }
 
@@ -26,72 +29,78 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.create', [
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        return view('product.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Product::create([
+            'product_number' => $request['product_number'],
+            'memo' => $request['memo'],
         ]);
+
+        return redirect()->route('product.show', ['id' => $viewItem['id']]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        return view('product.show', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Product::with(['sizes', 'symbols'])->find($id);
+        return view('management.show', [
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        return view('product.edit', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Product::with(['sizes', 'symbols'])->find($id);
+
+        return view('management.edit', [
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, $id)
     {
-        return view('product.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        Product::where('id', $id)->update([
+            'product_number' => $request->product_number,
+            'memo' => $request->memo,
         ]);
+
+        return redirect()->route('product.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        return view('product.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        Product::where('id', $id)->update([
+            'delete_flag' => true,
         ]);
+
+        return back();
     }
 
-    public function confirm(Product $equipment)
+    public function confirm(ProductRequest $request, $id)
     {
-        return view('product.confirm', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.confirm', [
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 }

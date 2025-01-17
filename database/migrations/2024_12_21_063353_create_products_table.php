@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('report_types', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
+            $table->string('product_number',255);
+            $table->string('memo',255);
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('report_types');
+        Schema::dropIfExists('products');
     }
 };

@@ -15,16 +15,19 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('machine_status_id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('report_id');
+            $table->unsignedBigInteger('size_id');
+            $table->unsignedBigInteger('symbol_id');
             $table->string("machine_name");
             $table->string("manufacture");
             $table->integer("needle_count");
             $table->string("needle_type");
+            $table->integer("lane_number");
+            $table->integer("machine_number");
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
             $table->foreign('machine_status_id')->references('id')->on('machine_statuses')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
         });
     }
 
@@ -36,15 +39,9 @@ return new class extends Migration
         Schema::table('machine_statuses', function (Blueprint $table) {
             $table->dropForeign(['machine_status_id']);
         });
-
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign(['product_id']);
         });
-
-        Schema::table('reports', function (Blueprint $table) {
-            $table->dropForeign(['report_id']);
-        });
-
         Schema::dropIfExists('machines');
     }
 };

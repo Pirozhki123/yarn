@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('symboles', function (Blueprint $table) {
+        Schema::create('symbols', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
             $table->string('symbol',255);
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
+
+            $table->unique(['product_id', 'symbol'], 'unique_symbol');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -23,6 +28,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('symboles');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
+        });
+        Schema::dropIfExists('symbols');
     }
 };

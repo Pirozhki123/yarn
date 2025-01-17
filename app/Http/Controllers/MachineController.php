@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Machine;
-use Illuminate\Http\Request;
+use App\Models\MachineStatus;
+use App\Models\Product;
+use App\Http\Requests\MachineRequest;
 
 class MachineController extends Controller
 {
-    private $resourceName = '機械';
-    private $routePath = '/machine';
+    private $viewInfo = [
+        'key' => 'machine',
+        'name' => '機械',
+        'route' => '/machine',
+    ];
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('machine.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.index', [
+            'viewInfo' => $this->viewInfo,
+            'viewItems' => Machine::all()->toArray(),
         ]);
     }
 
@@ -26,72 +31,115 @@ class MachineController extends Controller
      */
     public function create()
     {
-        return view('machine.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $formInfo = [
+            'machine_statuses' => MachineStatus::all(),
+            'products' => Product::all(),
+        ];
+
+        return view('management.create', [
+            'viewInfo' => $this->viewInfo,
+            'formInfo' => $formInfo,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MachineRequest $request)
     {
-        return view('machine.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Machine::create([
+            'machine_status_id' => $request['machine_status_id'],
+            'product_id' => $request['product_id'],
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
+            'machine_name' => $request['machine_name'],
+            'manufacture' => $request['manufacture'],
+            'needle_count' => $request['needle_count'],
+            'needle_type' => $request['needle_type'],
+            'lane_number' => $request['lane_number'],
+            'machine_number' => $request['machine_number'],
         ]);
+
+        return redirect()->route('machine.show', ['id' => $viewItem['id']]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Machine $machine)
+    public function show($id)
     {
-        return view('machine.show', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = Machine::find($id);
+        return view('management.show', [
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Machine $machine)
+    public function edit($id)
     {
-        return view('machine.edit', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $formInfo = [
+            'machine_statuses' => MachineStatus::all(),
+            'products' => Product::all(),
+        ];
+        $viewItem = Machine::with([
+            'machine_status',
+            'product',
+        ])->find($id);
+
+        return view('management.edit', [
+            'viewInfo' => $this->viewInfo,
+            'formInfo' => $formInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Machine $machine)
+    public function update(MachineRequest $request, $id)
     {
-        return view('machine.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        Machine::where('id', $id)->update([
+            'machine_status_id' => $request['machine_status_id'],
+            'product_id' => $request['product_id'],
+            'size_id' => $request['size_id'],
+            'symbol_id' => $request['symbol_id'],
+            'machine_name' => $request['machine_name'],
+            'manufacture' => $request['manufacture'],
+            'needle_count' => $request['needle_count'],
+            'needle_type' => $request['needle_type'],
+            'lane_number' => $request['lane_number'],
+            'machine_number' => $request['machine_number'],
         ]);
+
+        return redirect()->route('machine.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Machine $machine)
+    public function destroy($id)
     {
-        return view('machine.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        Machine::where('id', $id)->update([
+            'delete_flag' => true,
         ]);
+
+        return back();
     }
 
     public function confirm(Machine $equipment)
     {
-        return view('machine.confirm', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.confirm', [
+            'viewInfo' => $this->viewInfo,
         ]);
+    }
+
+    public function load_machine($id)
+    {
+        $result = Machine::find($id);
+
+        return $result;
     }
 }

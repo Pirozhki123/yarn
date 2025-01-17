@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipment;
-use Illuminate\Http\Request;
+use App\Http\Requests\EquipmentRequest;
 
 class EquipmentController extends Controller
 {
@@ -37,10 +37,10 @@ class EquipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EquipmentRequest $request)
     {
         $viewItem = Equipment::create([
-            'name' => $request['name'],
+            'equipment_name' => $request['equipment_name'],
             'quantity' => $request['quantity'],
         ]);
 
@@ -75,10 +75,10 @@ class EquipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(EquipmentRequest $request, $id)
     {
-        $viewItem = Equipment::where('id', $id)->update([
-            'name' => $request->name,
+        Equipment::where('id', $id)->update([
+            'equipment_name' => $request->equipment_name,
             'quantity' => $request->quantity,
         ]);
 
@@ -90,15 +90,26 @@ class EquipmentController extends Controller
      */
     public function destroy($id)
     {
-        Equipment::destroy($id);
+        Equipment::where('id', $id)->update([
+            'delete_flag' => true,
+        ]);
 
-        return redirect()->route('equipment.index');
+        return back();
     }
 
     public function confirm(Equipment $equipment)
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,
+        ]);
+    }
+
+    public function load_equipment()
+    {
+        return view('management.form.report_equipment', [
+            'formInfo' => [
+                'equipment' => \App\Models\Equipment::all(),
+            ],
         ]);
     }
 }

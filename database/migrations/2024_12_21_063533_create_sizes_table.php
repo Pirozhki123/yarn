@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('symbol_id');
-            $table->string('size',255);
+            $table->unsignedBigInteger('product_id');
+            $table->string('size');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
-            $table->foreign('symbol_id')->references('id')->on('symboles')->onDelete('cascade');
+            $table->unique(['product_id', 'size'], 'unique_size');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -26,10 +28,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('symboles', function (Blueprint $table) {
-            $table->dropForeign(['symbol_id']);
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
         });
-
         Schema::dropIfExists('sizes');
     }
 };

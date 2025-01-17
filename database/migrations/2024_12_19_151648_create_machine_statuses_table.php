@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('machine_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
+            $table->string('machine_status',255);
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\MachineStatus;
-use Illuminate\Http\Request;
+use App\Http\Requests\MachineStatusRequest;
 
 class MachineStatusController extends Controller
 {
-    private $resourceName = '機械ステータス';
-    private $routePath = '/machine/status';
+    private  $viewInfo = [
+        'key' => 'machine_status',
+        'name' => '機械ステータス',
+        'route' => '/machine_status',
+    ];
 
     /**
      * Display a listing of the resource.
@@ -16,8 +19,8 @@ class MachineStatusController extends Controller
     public function index()
     {
         return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItems' => MachineStatus::all()->toArray(),
         ]);
     }
 
@@ -26,72 +29,76 @@ class MachineStatusController extends Controller
      */
     public function create()
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        return view('management.create', [
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MachineStatusRequest $request)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
-        ]);
+        $viewItem = MachineStatus::updateOrCreate(
+            ['machine_status' => $request['machine_status']],
+            ['delete_flag' => false]
+        );
+
+        return redirect()->route('machine_status.show', ['id' => $viewItem['id']]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(MachineStatus $machineStatus)
+    public function show($id)
     {
+        $viewItem = MachineStatus::find($id);
         return view('management.show', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MachineStatus $machineStatus)
+    public function edit($id)
     {
+        $viewItem = MachineStatus::find($id);
         return view('management.edit', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
+            'viewItem' => $viewItem,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MachineStatus $machineStatus)
+    public function update(MachineStatusRequest $request, $id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        $viewItem = MachineStatus::where('id', $id)->update([
+            'machine_status' => $request->machine_status,
         ]);
+
+        return redirect()->route('machine_status.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MachineStatus $machineStatus)
+    public function destroy($id)
     {
-        return view('management.index', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+        MachineStatus::where('id', $id)->update([
+            'delete_flag' => true,
         ]);
+
+        return redirect()->route('machine_status.index');
     }
 
-    public function confirm(MachineStatus $equipment)
+    public function confirm(MachineStatusRequest $request, $id)
     {
         return view('management.confirm', [
-            'resourceName' => $this->resourceName,
-            'routePath' => $this->routePath,
+            'viewInfo' => $this->viewInfo,
         ]);
     }
 }
