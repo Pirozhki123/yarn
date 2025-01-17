@@ -32,9 +32,10 @@ class ReportController extends Controller
         $formInfo = [
             'users' => \App\Models\User::all(),
             'machines' => \App\Models\Machine::all(),
-            'report_types' => \App\Models\ReportType::all(),
+            'report_types' => config('constants.report_types'),
             'products' => \App\Models\Product::all(),
             'equipment' => \App\Models\Equipment::all(),
+            'machine_statuses' => \App\Models\MachineStatus::all()
         ];
         return view('management.create', [
             'viewInfo' => $this->viewInfo,
@@ -47,20 +48,25 @@ class ReportController extends Controller
      */
     public function store(ReportRequest $request)
     {
+        // 保存処理
         $viewItem = Report::create([
             'user_id' => $request['user_id'],
             'machine_id' => $request['machine_id'],
-            'report_type_id' => $request['report_type_id'],
+            'report_type' => $request['report_type'],
             'product_id' => $request['product_id'],
             'size_id' => $request['size_id'],
             'symbol_id' => $request['symbol_id'],
             'report' => $request['report'],
         ]);
-        $equipments = [];
-        foreach($request['equipment_id'] as $key => $equipment_id) {
-            $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+        if(isset($request['equipment_id'])) {
+            $equipments = [];
+            foreach($request['equipment_id'] as $key => $equipment_id) {
+                $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+            }
+            $viewItem->equipments()->attach($equipments);
         }
-        $viewItem->equipments()->attach($equipments);
+        // 機械情報更新
+        $test = \App\Models\Machine::updateMachineFromReport($request);
 
         return redirect()->route('report.show', ['id' => $viewItem['id']]);
     }
@@ -86,7 +92,7 @@ class ReportController extends Controller
         $formInfo = [
             'users' => \App\Models\User::all(),
             'machines' => \App\Models\Machine::all(),
-            'report_types' => \App\Models\ReportType::all(),
+            'report_types' => config('constants.report_types'),
             'products' => \App\Models\Product::all(),
             'equipment' => \App\Models\Equipment::all(),
         ];
@@ -107,7 +113,7 @@ class ReportController extends Controller
         $repost->update([
             'user_id' => $request['user_id'],
             'machine_id' => $request['machine_id'],
-            'report_type_id' => $request['report_type_id'],
+            'report_type' => $request['report_type'],
             'product_id' => $request['product_id'],
             'size_id' => $request['size_id'],
             'symbol_id' => $request['symbol_id'],
@@ -139,15 +145,6 @@ class ReportController extends Controller
     {
         return view('management.confirm', [
             'viewInfo' => $this->viewInfo,
-        ]);
-    }
-
-    public function load_equipment()
-    {
-        return view('management.form.report_equipment', [
-            'formInfo' => [
-                'equipment' => \App\Models\Equipment::all(),
-            ],
         ]);
     }
 }

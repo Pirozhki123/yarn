@@ -6,4 +6,3 @@
 <a href="/machine_status">機械ステータス</a>
 <a href="/product">製品情報</a>
 <a href="/report">報告</a>
-<a href="/report_type">報告種</a>

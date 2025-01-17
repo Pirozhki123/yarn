@@ -10,3 +10,6 @@
     <button type="submit" value="登録">登録</button>
 </form>
 <script src="{{asset('/js/form.js')}}"></script>
+@if($viewInfo['key'] == 'report')
+    <script src="{{asset('/js/report_form.js')}}"></script>
+@endif

@@ -135,4 +135,11 @@ class MachineController extends Controller
             'viewInfo' => $this->viewInfo,
         ]);
     }
+
+    public function load_machine($id)
+    {
+        $result = Machine::find($id);
+
+        return $result;
+    }
 }

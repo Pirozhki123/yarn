@@ -24,7 +24,7 @@ class ReportRequest extends FormRequest
         return [
             'user_id' => ['required', 'numeric', 'max:2147483647', 'exists:users,id'],
             'machine_id' => ['required', 'numeric', 'max:2147483647', 'exists:machines,id'],
-            'report_type_id' => ['required', 'numeric', 'max:2147483647', 'exists:report_types,id'],
+            'report_type' => ['required', 'string', 'max:255'],
             'product_id' => ['required', 'numeric', 'max:2147483647', 'exists:products,id'],
             'size_id' => ['required', 'numeric', 'max:2147483647', 'exists:sizes,id'],
             'symbol_id' => ['required', 'numeric', 'max:2147483647', 'exists:symbols,id'],
