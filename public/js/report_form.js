@@ -22,9 +22,10 @@ $(document).on('click', '.delete_equipment_button', function() {
 $(document).on('change', '#report_type', function() {
     $('.machine_group').show();
     resetOptions();
-    $('.product_group, .size_group, .symbol_group, .report_group, .equipment_group .option_group').hide();
+    $('.product_group, .size_group, .symbol_group, .report_group, .equipment_group, .option_group').hide();
     enableSelect();
     $('#machine_id, #product_id, #size_id, #symbol_id').val('');
+    displaySymbolType();
 });
 
 // 機械番号選択時、品番・サイズ・記号を表示し、自動で入力
@@ -53,6 +54,17 @@ $(document).on('change', '#machine_id', function(){
     }).always(function() {
         // 常時実行する処理
     });
+})
+
+$(document).on('change', 'input[type="radio"][name="symbol_type"]', function() {
+    console.log('test');
+    if($(this).val() == 'existing') {
+        $('.symbol_group .symbol_select').show();
+        $('.symbol_group .symbol_input').hide();
+    } else if($(this).val() == 'new') {
+        $('.symbol_group .symbol_select').hide();
+        $('.symbol_group .symbol_input').show();
+    }
 })
 
 function displayDetail() {
@@ -90,5 +102,16 @@ function resetOptions() {
         $('.option_group label, .option_group input').not('.stop_machine').hide();
     } else {
         $('.option_group label, .option_group input').hide();
+    }
+}
+
+function displaySymbolType() {
+    $('input[type="radio"][name="symbol_type"][value="existing"]').prop('checked', true);
+    $('.symbol_group .symbol_select').show();
+    $('.symbol_group .symbol_input').hide();
+    if($('#report_type').val() == 'symbol_change') {
+        $('.symbol_group .symbol_type').show();
+    } else {
+        $('.symbol_group .symbol_type').hide();
     }
 }

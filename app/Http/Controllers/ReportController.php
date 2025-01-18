@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
+use App\Models\User;
+use App\Models\Machine;
+use App\Models\Product;
+use App\Models\Equipment;
+use App\Models\MachineStatus;
 use App\Models\Report;
+use App\Models\Symbol;
 
 class ReportController extends Controller
 {
@@ -30,12 +36,12 @@ class ReportController extends Controller
     public function create()
     {
         $formInfo = [
-            'users' => \App\Models\User::all(),
-            'machines' => \App\Models\Machine::all(),
+            'users' => User::all(),
+            'machines' => Machine::all(),
             'report_types' => config('constants.report_types'),
-            'products' => \App\Models\Product::all(),
-            'equipment' => \App\Models\Equipment::all(),
-            'machine_statuses' => \App\Models\MachineStatus::all()
+            'products' => Product::all(),
+            'equipment' => Equipment::all(),
+            'machine_statuses' => MachineStatus::all()
         ];
         return view('management.create', [
             'viewInfo' => $this->viewInfo,
@@ -48,16 +54,19 @@ class ReportController extends Controller
      */
     public function store(ReportRequest $request)
     {
-        // 保存処理
+        // 新規記号登録処理
+        $symbolId = Symbol::createSymbolFromReport($request);
+        // 報告保存処理
         $viewItem = Report::create([
             'user_id' => $request['user_id'],
             'machine_id' => $request['machine_id'],
             'report_type' => $request['report_type'],
             'product_id' => $request['product_id'],
             'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
+            'symbol_id' => $symbolId,
             'report' => $request['report'],
         ]);
+        // 備品交換保存処理
         if(isset($request['equipment_id'])) {
             $equipments = [];
             foreach($request['equipment_id'] as $key => $equipment_id) {
@@ -66,7 +75,7 @@ class ReportController extends Controller
             $viewItem->equipments()->attach($equipments);
         }
         // 機械情報更新
-        $test = \App\Models\Machine::updateMachineFromReport($request);
+        Machine::updateMachineFromReport($request);
 
         return redirect()->route('report.show', ['id' => $viewItem['id']]);
     }
@@ -90,11 +99,11 @@ class ReportController extends Controller
     public function edit($id)
     {
         $formInfo = [
-            'users' => \App\Models\User::all(),
-            'machines' => \App\Models\Machine::all(),
+            'users' => User::all(),
+            'machines' => Machine::all(),
             'report_types' => config('constants.report_types'),
-            'products' => \App\Models\Product::all(),
-            'equipment' => \App\Models\Equipment::all(),
+            'products' => Product::all(),
+            'equipment' => Equipment::all(),
         ];
         $viewItem = Report::with(['equipments'])->find($id);
         return view('management.edit', [
@@ -109,6 +118,9 @@ class ReportController extends Controller
      */
     public function update(ReportRequest $request, $id)
     {
+        // 記号新規登録処理
+        $symbolId = Symbol::createSymbolFromReport($request);
+        // 報告保存処理
         $repost = Report::where('id', $id)->first();
         $repost->update([
             'user_id' => $request['user_id'],
@@ -116,15 +128,17 @@ class ReportController extends Controller
             'report_type' => $request['report_type'],
             'product_id' => $request['product_id'],
             'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
+            'symbol_id' => $symbolId,
             'report' => $request['report'],
         ]);
-
-        $equipments = [];
-        foreach($request['equipment_id'] as $key => $equipment_id) {
-            $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+        // 備品交換保存処理
+        if(isset($request['equipment_id'])) {
+            $equipments = [];
+            foreach($request['equipment_id'] as $key => $equipment_id) {
+                $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+            }
+            $repost->equipments()->sync($equipments);
         }
-        $repost->equipments()->sync($equipments);
 
         return redirect()->route('report.show', ['id' => $id]);
     }

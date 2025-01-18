@@ -12,4 +12,19 @@ class Symbol extends Model
     {
         return $this->belogsTo(Product::class);
     }
+
+    public static function createSymbolFromReport($request)
+    {
+        if ($request->input('symbol_type') === 'existing') {
+            $symbolId = $request->input('symbol_id');
+        } elseif($request->input('symbol_type') === 'new') {
+            $createdSymbol = \App\Models\Symbol::create([
+                'product_id' => $request->input('product_id'),
+                'symbol' => $request->input('symbol'),
+            ]);
+            $symbolId = $createdSymbol->id;
+        }
+
+        return $symbolId;
+    }
 }

@@ -46,9 +46,22 @@
     <select id="size_id" name="size_id"><option></option></select>
 </div>
 <div class="symbol_group" style="display :none">
-    <label for="symbol_id">識別記号</label>
-    <input type="hidden" id="old_symbol_id" value="{{old('symbol_id', $viewItem['symbol_id'] ?? null)}}">
-    <select id="symbol_id" name="symbol_id"><option></option></select>
+    <label for="symbol_type">識別記号</label>
+    <div class="symbol_type">
+        <label>
+            <input type="radio" name="symbol_type" value="existing" checked>既存
+        </label>
+        <label>
+            <input type="radio" name="symbol_type" value="new">新規
+        </label>
+    </div>
+    <div class="symbol_select">
+        <input type="hidden" id="old_symbol_id" value="{{old('symbol_id', $viewItem['symbol_id'] ?? null)}}">
+        <select id="symbol_id" name="symbol_id"><option></option></select>
+    </div>
+    <div class="symbol_input" style="display: none">
+        <input type="text" id="symbol" name="symbol" value="{{old('symbol')}}">
+    </div>
 </div>
 <div class="equipment_group" style="display :none">
     <label>備品交換</label>
