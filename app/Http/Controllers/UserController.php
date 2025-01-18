@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -17,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -25,9 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return view('user.create');
     }
 
     /**
@@ -35,14 +32,15 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $viewItem = User::create([
+        $user = User::create([
             'number' => $request->input('number'),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ]);
 
-        return redirect()->route('user.show', ['id' => $viewItem['id']]);
+        $id = $user->id;
+        return redirect()->route('user.show', compact('id'));
     }
 
     /**
@@ -50,11 +48,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $viewItem = User::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $user = User::find($id);
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -62,11 +57,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = User::find($id);
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $user = User::find($id);
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -74,14 +66,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $viewItem = User::where('id', $id)->update([
+        User::where('id', $id)->update([
             'number' => $request->number,
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
         ]);
 
-        return redirect()->route('user.show', ['id' => $id]);
+        return redirect()->route('user.show', compact('id'));
     }
 
     /**
@@ -89,7 +81,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $viewItem = User::where('id', $id)->update([
+        User::where('id', $id)->update([
             'delete_flag' => true,
         ]);
 

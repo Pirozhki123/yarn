@@ -19,13 +19,6 @@
             <td>
                 <a href="user/show/{{$user->id}}">詳細</a>
             </td>
-            {{-- <td>
-                <form action="{{'user.destroy', $viewItem['id'])}}" method="POST" class="delete_form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">削除</button>
-                </form>
-            </td> --}}
         </tr>
         @endforeach
     </table>

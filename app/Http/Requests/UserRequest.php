@@ -21,6 +21,7 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        // FIXME:新規登録時のみのユニークルール追加
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email:strict,dns', 'max:255'],
