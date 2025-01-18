@@ -40,8 +40,8 @@ class EquipmentController extends Controller
     public function store(EquipmentRequest $request)
     {
         $viewItem = Equipment::create([
-            'equipment_name' => $request['equipment_name'],
-            'quantity' => $request['quantity'],
+            'equipment_name' => $request->input('equipment_name'),
+            'quantity' => $request->input('quantity'),
         ]);
 
         return redirect()->route('equipment.show', ['id' => $viewItem['id']]);

@@ -48,16 +48,16 @@ class MachineController extends Controller
     public function store(MachineRequest $request)
     {
         $viewItem = Machine::create([
-            'machine_status_id' => $request['machine_status_id'],
-            'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
-            'machine_name' => $request['machine_name'],
-            'manufacture' => $request['manufacture'],
-            'needle_count' => $request['needle_count'],
-            'needle_type' => $request['needle_type'],
-            'lane_number' => $request['lane_number'],
-            'machine_number' => $request['machine_number'],
+            'machine_status_id' => $request->input('machine_status_id'),
+            'product_id' => $request->input('product_id'),
+            'size_id' => $request->input('size_id'),
+            'symbol_id' => $request->input('symbol_id'),
+            'machine_name' => $request->input('machine_name'),
+            'manufacture' => $request->input('manufacture'),
+            'needle_count' => $request->input('needle_count'),
+            'needle_type' => $request->input('needle_type'),
+            'lane_number' => $request->input('lane_number'),
+            'machine_number' => $request->input('machine_number'),
         ]);
 
         return redirect()->route('machine.show', ['id' => $viewItem['id']]);
@@ -102,16 +102,16 @@ class MachineController extends Controller
     public function update(MachineRequest $request, $id)
     {
         Machine::where('id', $id)->update([
-            'machine_status_id' => $request['machine_status_id'],
-            'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
-            'machine_name' => $request['machine_name'],
-            'manufacture' => $request['manufacture'],
-            'needle_count' => $request['needle_count'],
-            'needle_type' => $request['needle_type'],
-            'lane_number' => $request['lane_number'],
-            'machine_number' => $request['machine_number'],
+            'machine_status_id' => $request->input('machine_status_id'),
+            'product_id' => $request->input('product_id'),
+            'size_id' => $request->input('size_id'),
+            'symbol_id' => $request->input('symbol_id'),
+            'machine_name' => $request->input('machine_name'),
+            'manufacture' => $request->input('manufacture'),
+            'needle_count' => $request->input('needle_count'),
+            'needle_type' => $request->input('needle_type'),
+            'lane_number' => $request->input('lane_number'),
+            'machine_number' => $request->input('machine_number'),
         ]);
 
         return redirect()->route('machine.show', ['id' => $id]);

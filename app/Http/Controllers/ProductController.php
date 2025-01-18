@@ -40,8 +40,8 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $viewItem = Product::create([
-            'product_number' => $request['product_number'],
-            'memo' => $request['memo'],
+            'product_number' => $request->input('product_number'),
+            'memo' => $request->input('memo'),
         ]);
 
         return redirect()->route('product.show', ['id' => $viewItem['id']]);

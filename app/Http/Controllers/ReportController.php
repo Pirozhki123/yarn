@@ -58,19 +58,19 @@ class ReportController extends Controller
         $symbolId = Symbol::createSymbolFromReport($request);
         // 報告保存処理
         $viewItem = Report::create([
-            'user_id' => $request['user_id'],
-            'machine_id' => $request['machine_id'],
-            'report_type' => $request['report_type'],
-            'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
+            'user_id' => $request->input('user_id'),
+            'machine_id' => $request->input('machine_id'),
+            'report_type' => $request->input('report_type'),
+            'product_id' => $request->input('product_id'),
+            'size_id' => $request->input('size_id'),
             'symbol_id' => $symbolId,
-            'report' => $request['report'],
+            'report' => $request->input('report'),
         ]);
         // 備品交換保存処理
-        if(isset($request['equipment_id'])) {
+        if($request->has('equipment_id')) {
             $equipments = [];
-            foreach($request['equipment_id'] as $key => $equipment_id) {
-                $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+            foreach($request->input('equipment_id') as $key => $equipment_id) {
+                $equipments[$equipment_id] = ['quantity' => $request->input('quantity')][$key];
             }
             $viewItem->equipments()->attach($equipments);
         }
@@ -123,19 +123,19 @@ class ReportController extends Controller
         // 報告保存処理
         $repost = Report::where('id', $id)->first();
         $repost->update([
-            'user_id' => $request['user_id'],
-            'machine_id' => $request['machine_id'],
-            'report_type' => $request['report_type'],
-            'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
+            'user_id' => $request->input('user_id'),
+            'machine_id' => $request->input('machine_id'),
+            'report_type' => $request->input('report_type'),
+            'product_id' => $request->input('product_id'),
+            'size_id' => $request->input('size_id'),
             'symbol_id' => $symbolId,
-            'report' => $request['report'],
+            'report' => $request->input('report'),
         ]);
         // 備品交換保存処理
-        if(isset($request['equipment_id'])) {
+        if($request->has('equipment_id')) {
             $equipments = [];
-            foreach($request['equipment_id'] as $key => $equipment_id) {
-                $equipments[$equipment_id] = ['quantity' => $request['quantity'][$key]];
+            foreach($request->input('equipment_id') as $key => $equipment_id) {
+                $equipments[$equipment_id] = ['quantity' => $request->input('quantity')[$key]];
             }
             $repost->equipments()->sync($equipments);
         }

@@ -40,7 +40,7 @@ class MachineStatusController extends Controller
     public function store(MachineStatusRequest $request)
     {
         $viewItem = MachineStatus::updateOrCreate(
-            ['machine_status' => $request['machine_status']],
+            ['machine_status' => $request->input('machine_status')],
             ['delete_flag' => false]
         );
 

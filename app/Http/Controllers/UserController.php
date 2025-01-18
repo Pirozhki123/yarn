@@ -16,10 +16,8 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => User::all()->toArray(),
-        ]);
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -38,10 +36,10 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $viewItem = User::create([
-            'number' => $request['number'],
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => $request['password'],
+            'number' => $request->input('number'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
         ]);
 
         return redirect()->route('user.show', ['id' => $viewItem['id']]);
