@@ -7,12 +7,6 @@ use App\Http\Requests\EquipmentRequest;
 
 class EquipmentController extends Controller
 {
-    private $viewInfo = [
-        'key' => 'equipment',
-        'name' => '備品',
-        'route' => '/equipment',
-    ];
-
     /**
      * Display a listing of the resource.
      */
@@ -28,9 +22,7 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        return view('equipment.create', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return view('equipment.create');
     }
 
     /**
@@ -43,8 +35,7 @@ class EquipmentController extends Controller
             'quantity' => $request->input('quantity'),
         ]);
 
-        $id = $equipment->id;
-        return redirect()->route('equipment.show', compact('id'));
+        return redirect()->route('equipment.show', $equipment->id);
     }
 
     /**
@@ -75,7 +66,7 @@ class EquipmentController extends Controller
             'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->route('equipment.show', compact('id'));
+        return redirect()->route('equipment.show', $id);
     }
 
     /**

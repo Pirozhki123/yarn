@@ -26,6 +26,16 @@ class Machine extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
+
+    public function symbol()
+    {
+        return $this->belongsTo(Symbol::class);
+    }
+
     public function reports()
     {
         return $this->hasMany(Report::class);

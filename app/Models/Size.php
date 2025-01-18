@@ -20,4 +20,9 @@ class Size extends Model
     {
         return $this->belogsTo(Product::class);
     }
+
+    public function machines()
+    {
+        return $this->hasMany(Machine::class);
+    }
 }

@@ -9,21 +9,13 @@ use App\Http\Requests\MachineRequest;
 
 class MachineController extends Controller
 {
-    private $viewInfo = [
-        'key' => 'machine',
-        'name' => '機械',
-        'route' => '/machine',
-    ];
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => Machine::all()->toArray(),
-        ]);
+        $machines = Machine::with('product', 'size', 'symbol')->get();
+        return view('machine.index', compact('machines'));
     }
 
     /**
@@ -31,15 +23,10 @@ class MachineController extends Controller
      */
     public function create()
     {
-        $formInfo = [
-            'machine_statuses' => MachineStatus::all(),
-            'products' => Product::all(),
-        ];
+        $machine_statuses = MachineStatus::all();
+        $products = Product::all();
 
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-            'formInfo' => $formInfo,
-        ]);
+        return view('machine.create', compact('machine_statuses', 'products'));
     }
 
     /**
@@ -47,7 +34,7 @@ class MachineController extends Controller
      */
     public function store(MachineRequest $request)
     {
-        $viewItem = Machine::create([
+        $machine = Machine::create([
             'machine_status_id' => $request->input('machine_status_id'),
             'product_id' => $request->input('product_id'),
             'size_id' => $request->input('size_id'),
@@ -60,7 +47,7 @@ class MachineController extends Controller
             'machine_number' => $request->input('machine_number'),
         ]);
 
-        return redirect()->route('machine.show', ['id' => $viewItem['id']]);
+        return redirect()->route('machine.show', $machine->id);
     }
 
     /**
@@ -68,11 +55,8 @@ class MachineController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Machine::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $machine = Machine::find($id);
+        return view('machine.show', compact('machine'));
     }
 
     /**
@@ -80,20 +64,20 @@ class MachineController extends Controller
      */
     public function edit($id)
     {
-        $formInfo = [
-            'machine_statuses' => MachineStatus::all(),
-            'products' => Product::all(),
-        ];
-        $viewItem = Machine::with([
+        $machine_statuses = MachineStatus::all();
+        $products = Product::all();
+        $machine = Machine::with([
             'machine_status',
             'product',
         ])->find($id);
 
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'formInfo' => $formInfo,
-            'viewItem' => $viewItem,
-        ]);
+        return view('machine.edit',
+            compact(
+                'machine_statuses',
+                'products',
+                'machine'
+            )
+        );
     }
 
     /**
@@ -114,7 +98,7 @@ class MachineController extends Controller
             'machine_number' => $request->input('machine_number'),
         ]);
 
-        return redirect()->route('machine.show', ['id' => $id]);
+        return redirect()->route('machine.show', $id);
     }
 
     /**
@@ -126,14 +110,7 @@ class MachineController extends Controller
             'delete_flag' => true,
         ]);
 
-        return back();
-    }
-
-    public function confirm(Machine $equipment)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return redirect()->route('machine.index');
     }
 
     public function load_machine($id)

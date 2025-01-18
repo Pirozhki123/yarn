@@ -7,12 +7,6 @@ use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
-    private  $viewInfo = [
-        'key' => 'user',
-        'name' => 'ユーザー',
-        'route' => '/user',
-    ];
-
     public function index()
     {
         $users = User::all();
@@ -39,8 +33,7 @@ class UserController extends Controller
             'password' => $request->input('password'),
         ]);
 
-        $id = $user->id;
-        return redirect()->route('user.show', compact('id'));
+        return redirect()->route('user.show', $user->id);
     }
 
     /**
@@ -73,7 +66,7 @@ class UserController extends Controller
             'password' => $request->password,
         ]);
 
-        return redirect()->route('user.show', compact('id'));
+        return redirect()->route('user.show', $id);
     }
 
     /**
