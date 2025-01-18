@@ -41,7 +41,7 @@ class ReportController extends Controller
             'report_types' => config('constants.report_types'),
             'products' => Product::all(),
             'equipment' => Equipment::all(),
-            'machine_statuses' => MachineStatus::all()
+            'machine_statuses' => config('constants.machine_status'),
         ];
         return view('management.create', [
             'viewInfo' => $this->viewInfo,

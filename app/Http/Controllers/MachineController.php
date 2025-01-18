@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Machine;
-use App\Models\MachineStatus;
 use App\Models\Product;
 use App\Http\Requests\MachineRequest;
 
@@ -23,7 +22,7 @@ class MachineController extends Controller
      */
     public function create()
     {
-        $machine_statuses = MachineStatus::all();
+        $machine_statuses = config('constants.machine_status');
         $products = Product::all();
 
         return view('machine.create', compact('machine_statuses', 'products'));
@@ -35,7 +34,7 @@ class MachineController extends Controller
     public function store(MachineRequest $request)
     {
         $machine = Machine::create([
-            'machine_status_id' => $request->input('machine_status_id'),
+            'machine_status' => $request->input('machine_status'),
             'product_id' => $request->input('product_id'),
             'size_id' => $request->input('size_id'),
             'symbol_id' => $request->input('symbol_id'),
@@ -64,12 +63,9 @@ class MachineController extends Controller
      */
     public function edit($id)
     {
-        $machine_statuses = MachineStatus::all();
+        $machine_statuses = config('constants.machine_status');
         $products = Product::all();
-        $machine = Machine::with([
-            'machine_status',
-            'product',
-        ])->find($id);
+        $machine = Machine::with(['product',])->find($id);
 
         return view('machine.edit',
             compact(
@@ -86,7 +82,7 @@ class MachineController extends Controller
     public function update(MachineRequest $request, $id)
     {
         Machine::where('id', $id)->update([
-            'machine_status_id' => $request->input('machine_status_id'),
+            'machine_status' => $request->input('machine_status'),
             'product_id' => $request->input('product_id'),
             'size_id' => $request->input('size_id'),
             'symbol_id' => $request->input('symbol_id'),

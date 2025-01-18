@@ -24,7 +24,7 @@
             <td>{{$machine->needle_count}}</td>
             <td>{{$machine->needle_type}}</td>
             <td>{{$machine->lane_number . ' - ' . $machine->machine_number}}</td>
-            <td>{{$machine->machine_status->machine_status}}</td>
+            <td>{{config('constants.machine_status.' . $machine->machine_status)}}</td>
             <td>{{$machine->product->product_number}}</td>
             <td>{{$machine->size->size}}</td>
             <td>{{$machine->symbol->symbol}}</td>

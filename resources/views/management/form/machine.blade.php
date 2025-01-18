@@ -27,11 +27,11 @@
     @endfor
 </select>
 <br>
-<label for="machine_status_id">稼働状況</label>
-<select id ="machine_status_id" name="machine_status_id">
+<label for="machine_status">稼働状況</label>
+<select id ="machine_status" name="machine_status">
     <option value=""></option>
     @foreach($formInfo['machine_statuses'] as $machine_status)
-        <option value="{{$machine_status['id']}}" @selected(old('machine_status_id', $viewItem['machine_status_id'] ?? null) == $machine_status['id'])>
+        <option value="{{$machine_status['id']}}" @selected(old('machine_status', $viewItem['machine_status'] ?? null) == $machine_status['id'])>
             {{$machine_status['machine_status']}}
         </option>
     @endforeach

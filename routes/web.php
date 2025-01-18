@@ -34,15 +34,6 @@ Route::delete('/machine/destroy/{id}', [MachineController::class, 'destroy'])->n
 Route::get('/machine/confirm/{id}', [MachineController::class, 'confirm'])->name('machine.confirm');
 Route::get('/machine/load_machine/{id}', [MachineController::class, 'load_machine'])->name('machine.load_machine');
 
-Route::get('/machine_status', [MachineStatusController::class, 'index'])->name('machine_status.index');
-Route::get('/machine_status/show/{id}', [MachineStatusController::class, 'show'])->name('machine_status.show');
-Route::get('/machine_status/create', [MachineStatusController::class, 'create'])->name('machine_status.create');
-Route::post('/machine_status/create', [MachineStatusController::class, 'store'])->name('machine_status.store');
-Route::get('/machine_status/edit/{id}', [MachineStatusController::class, 'edit'])->name('machine_status.edit');
-Route::put('/machine_status/edit/{id}', [MachineStatusController::class, 'update'])->name('machine_status.update');
-Route::delete('/machine_status/destroy/{id}', [MachineStatusController::class, 'destroy'])->name('machine_status.destroy');
-Route::get('/machine_status/confirm/{id}', [MachineStatusController::class, 'confirm'])->name('machine_status.confirm');
-
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
