@@ -18,10 +18,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => Product::all()->toArray(),
-        ]);
+        $products = Product::all();
+
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -29,9 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return view('product.create');
     }
 
     /**
@@ -39,12 +36,12 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $viewItem = Product::create([
+        $product = Product::create([
             'product_number' => $request->input('product_number'),
             'memo' => $request->input('memo'),
         ]);
 
-        return redirect()->route('product.show', ['id' => $viewItem['id']]);
+        return redirect()->route('product.show', $product->id);
     }
 
     /**
@@ -52,11 +49,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Product::with(['sizes', 'symbols'])->find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $product = Product::with(['sizes', 'symbols'])->find($id);
+        return view('product.show', compact('product'));
     }
 
     /**
@@ -64,12 +58,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = Product::with(['sizes', 'symbols'])->find($id);
+        $product = Product::with(['sizes', 'symbols'])->find($id);
 
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        return view('product.edit', compact('product'));
     }
 
     /**
@@ -82,7 +73,7 @@ class ProductController extends Controller
             'memo' => $request->memo,
         ]);
 
-        return redirect()->route('product.show', ['id' => $id]);
+        return redirect()->route('product.show', $id);
     }
 
     /**
@@ -94,13 +85,6 @@ class ProductController extends Controller
             'delete_flag' => true,
         ]);
 
-        return back();
-    }
-
-    public function confirm(ProductRequest $request, $id)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return redirect()->route('product.show', $id);
     }
 }
