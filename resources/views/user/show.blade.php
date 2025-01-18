@@ -1,5 +1,5 @@
 @include('head')
-@include('layouts.header')
+@include('components.header')
 @include('parts.messages')
 <h1>ユーザー詳細</h1>
 <form action="{{route('user.edit', $user->id)}}" method="GET" class="get_form">

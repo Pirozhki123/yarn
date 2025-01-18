@@ -87,11 +87,4 @@ class UserController extends Controller
 
         return redirect()->route('user.index');
     }
-
-    public function confirm(UserRequest $request, $id)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
-    }
 }

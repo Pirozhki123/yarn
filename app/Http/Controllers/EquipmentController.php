@@ -18,10 +18,9 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => Equipment::all()->toArray(),
-        ]);
+        $equipments = Equipment::all();
+
+        return view('equipment.index', compact('equipments'));
     }
 
     /**
@@ -29,7 +28,7 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        return view('management.create', [
+        return view('equipment.create', [
             'viewInfo' => $this->viewInfo,
         ]);
     }
@@ -39,12 +38,13 @@ class EquipmentController extends Controller
      */
     public function store(EquipmentRequest $request)
     {
-        $viewItem = Equipment::create([
+        $equipment = Equipment::create([
             'equipment_name' => $request->input('equipment_name'),
             'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->route('equipment.show', ['id' => $viewItem['id']]);
+        $id = $equipment->id;
+        return redirect()->route('equipment.show', compact('id'));
     }
 
     /**
@@ -52,12 +52,8 @@ class EquipmentController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Equipment::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-            'id' => $id,
-        ]);
+        $equipment = Equipment::find($id);
+        return view('equipment.show', compact('equipment'));
     }
 
     /**
@@ -65,11 +61,8 @@ class EquipmentController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = Equipment::find($id);
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $equipment = Equipment::find($id);
+        return view('equipment.edit', compact('equipment'));
     }
 
     /**
@@ -78,11 +71,11 @@ class EquipmentController extends Controller
     public function update(EquipmentRequest $request, $id)
     {
         Equipment::where('id', $id)->update([
-            'equipment_name' => $request->equipment_name,
-            'quantity' => $request->quantity,
+            'equipment_name' => $request->input('equipment_name'),
+            'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->route('equipment.show', ['id' => $id]);
+        return redirect()->route('equipment.show', compact('id'));
     }
 
     /**
@@ -94,16 +87,10 @@ class EquipmentController extends Controller
             'delete_flag' => true,
         ]);
 
-        return back();
+        return redirect()->route('equipment.index');
     }
 
-    public function confirm(Equipment $equipment)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
-    }
-
+    // FIXME:
     public function load_equipment()
     {
         return view('management.form.report_equipment', [

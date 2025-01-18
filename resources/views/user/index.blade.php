@@ -1,5 +1,5 @@
 @include('head')
-@include('layouts.header')
+@include('components.header')
 @include('parts.messages')
 <h1>ユーザー一覧</h1>
 <a href="user/create">新規追加</a>
