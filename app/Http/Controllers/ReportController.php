@@ -7,27 +7,23 @@ use App\Models\User;
 use App\Models\Machine;
 use App\Models\Product;
 use App\Models\Equipment;
-use App\Models\MachineStatus;
 use App\Models\Report;
 use App\Models\Symbol;
 
 class ReportController extends Controller
 {
-    private $viewInfo = [
-        'key' => 'report',
-        'name' => '報告',
-        'route' => '/report',
-    ];
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => Report::all()->toArray(),
-        ]);
+        $reports = Report::with(
+            'user',
+            'machine',
+            'size',
+            'symbol',
+        )->get();
+        return view('report.index', compact('reports'));
     }
 
     /**
@@ -35,18 +31,21 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $formInfo = [
-            'users' => User::all(),
-            'machines' => Machine::all(),
-            'report_types' => config('constants.report_types'),
-            'products' => Product::all(),
-            'equipment' => Equipment::all(),
-            'machine_statuses' => config('constants.machine_status'),
-        ];
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-            'formInfo' => $formInfo,
-        ]);
+        $users = User::all();
+        $machines = Machine::all();
+        $report_types = config('constants.report_types');
+        $products = Product::all();
+        $equipment = Equipment::all();
+        $machine_statuses = config('constants.machine_status');
+
+        return view('report.create', compact(
+            'users',
+            'machines',
+            'report_types',
+            'products',
+            'equipment',
+            'machine_statuses',
+        ));
     }
 
     /**
@@ -57,7 +56,7 @@ class ReportController extends Controller
         // 新規記号登録処理
         $symbolId = Symbol::createSymbolFromReport($request);
         // 報告保存処理
-        $viewItem = Report::create([
+        $report = Report::create([
             'user_id' => $request->input('user_id'),
             'machine_id' => $request->input('machine_id'),
             'report_type' => $request->input('report_type'),
@@ -70,14 +69,14 @@ class ReportController extends Controller
         if($request->has('equipment_id')) {
             $equipments = [];
             foreach($request->input('equipment_id') as $key => $equipment_id) {
-                $equipments[$equipment_id] = ['quantity' => $request->input('quantity')][$key];
+                $equipments[$equipment_id] = ['quantity' => $request->input('quantity')[$key]];
             }
-            $viewItem->equipments()->attach($equipments);
+            $report->equipments()->attach($equipments);
         }
         // 機械情報更新
         Machine::updateMachineFromReport($request);
 
-        return redirect()->route('report.show', ['id' => $viewItem['id']]);
+        return redirect()->route('report.show', $report->id);
     }
 
     /**
@@ -85,12 +84,14 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Report::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-            'id' => $id,
-        ]);
+        $report = Report::with(
+            'user',
+            'machine',
+            'size',
+            'symbol',
+        )->where('id', $id)->first();
+
+        return view('report.show', compact('report'));
     }
 
     /**
@@ -98,19 +99,21 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
-        $formInfo = [
-            'users' => User::all(),
-            'machines' => Machine::all(),
-            'report_types' => config('constants.report_types'),
-            'products' => Product::all(),
-            'equipment' => Equipment::all(),
-        ];
-        $viewItem = Report::with(['equipments'])->find($id);
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'formInfo' => $formInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $users = User::all();
+        $machines = Machine::all();
+        $report_types = config('constants.report_types');
+        $products = Product::all();
+        $equipment = Equipment::all();
+        $report = Report::with(['equipments'])->find($id);
+
+        return view('report.edit', compact(
+            'users',
+            'machines',
+            'report_types',
+            'products',
+            'equipment',
+            'report',
+        ));
     }
 
     /**
@@ -140,7 +143,7 @@ class ReportController extends Controller
             $repost->equipments()->sync($equipments);
         }
 
-        return redirect()->route('report.show', ['id' => $id]);
+        return redirect()->route('report.show', $id);
     }
 
     /**
@@ -152,13 +155,6 @@ class ReportController extends Controller
             'delete_flag' => true,
         ]);
 
-        return back();
-    }
-
-    public function confirm(ReportRequest $request, $id)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return redirect()->route('report.index');
     }
 }

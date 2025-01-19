@@ -7,12 +7,6 @@ use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
-    private  $viewInfo = [
-        'key' => 'product',
-        'name' => '製品',
-        'route' => '/product',
-    ];
-
     /**
      * Display a listing of the resource.
      */

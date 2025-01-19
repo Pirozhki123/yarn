@@ -26,6 +26,11 @@ class Symbol extends Model
         return $this->hasMany(Machine::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public static function createSymbolFromReport($request)
     {
         if ($request->input('symbol_type') === 'existing') {

@@ -25,4 +25,9 @@ class Size extends Model
     {
         return $this->hasMany(Machine::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

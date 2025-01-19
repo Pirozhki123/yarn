@@ -1,9 +1,9 @@
 <label for="user_id">報告者</label>
 <select id="user_id" name="user_id">
     <option value=""></option>
-    @foreach($formInfo['users'] as $user)
-        <option value="{{$user['id']}}" @selected(old('user_id', $viewItem['user_id'] ?? null) == $user['id'])>
-            {{$user['name']}}
+    @foreach($users as $user)
+        <option value="{{$user->id}}" @selected(old('user_id', $report->user_id ?? null) == $user->id)>
+            {{$user->name}}
         </option>
     @endforeach
 </select>
@@ -12,7 +12,7 @@
 <select id="report_type" name="report_type">
     <option value=""></option>
     @foreach(config('constants.report_types') as $key => $report_type)
-        <option value="{{$key}}" @selected(old('report_type', $viewItem['report_type'] ?? null) == $key)>
+        <option value="{{$key}}" @selected(old('report_type', $report->report_type ?? null) == $key)>
             {{$report_type}}
         </option>
     @endforeach
@@ -22,9 +22,9 @@
     <label for="machine_id">機械番号</label>
     <select id="machine_id" name="machine_id">
         <option value=""></option>
-        @foreach($formInfo['machines'] as $machine)
-            <option value="{{$machine['id']}}" @selected(old('machine_id', $viewItem['machine_id'] ?? null) == $machine['id'])>
-                {{$machine['lane_number'] . "-" . $machine['machine_number']}}
+        @foreach($machines as $machine)
+            <option value="{{$machine->id}}" @selected(old('machine_id', $report->machine_id ?? null) == $machine->id)>
+                {{$machine->lane_number . "-" . $machine->machine_number}}
             </option>
         @endforeach
     </select>
@@ -33,16 +33,16 @@
     <label for="product_id">品番</label>
     <select id="product_id" name="product_id">
         <option value=""></option>
-        @foreach($formInfo['products'] as $product)
-            <option value="{{$product['id']}}" @selected(old('product_id', $viewItem['product_id'] ?? null) == $product['id'])>
-                {{$product['product_number']}}
+        @foreach($products as $product)
+            <option value="{{$product->id}}" @selected(old('product_id', $report->product_id ?? null) == $product->id)>
+                {{$product->product_number}}
             </option>
         @endforeach
     </select>
 </div>
 <div class="size_group" style="display :none">
     <label for="size_id">サイズ</label>
-    <input type="hidden" id="old_size_id" value="{{old('size_id', $viewItem['size_id'] ?? null)}}">
+    <input type="hidden" id="old_size_id" value="{{old('size_id', $report->size_id ?? null)}}">
     <select id="size_id" name="size_id"><option></option></select>
 </div>
 <div class="symbol_group" style="display :none">
@@ -56,7 +56,7 @@
         </label>
     </div>
     <div class="symbol_select">
-        <input type="hidden" id="old_symbol_id" value="{{old('symbol_id', $viewItem['symbol_id'] ?? null)}}">
+        <input type="hidden" id="old_symbol_id" value="{{old('symbol_id', $report->symbol_id ?? null)}}">
         <select id="symbol_id" name="symbol_id"><option></option></select>
     </div>
     <div class="symbol_input" style="display: none">
@@ -74,8 +74,8 @@
                 'oldQuantity' => old('quantity.' . $key),
             ])
         @endforeach
-    @elseif(isset($viewItem['equipments']))
-        @foreach($viewItem['equipments'] as $equipment)
+    @elseif(!empty($report->equipments))
+        @foreach($report->equipments as $equipment)
             @include('management.form.report_equipment', [
                 'oldEquipmentId' => $equipment->pivot->equipment_id,
                 'oldQuantity' => $equipment->pivot->quantity,
@@ -93,6 +93,6 @@
 </div>
 <div class="report_group" style="display :none">
     <label for="report">報告内容</label><br>
-    <textarea id="report" name="report">{{old('report', $viewItem['report'] ?? null)}}</textarea>
+    <textarea id="report" name="report">{{old('report', $report->report ?? null)}}</textarea>
 </div>
 <br>

@@ -2,7 +2,7 @@
 @include('components.header')
 @include('parts.messages')
 <h1>ユーザー編集</h1>
-<form action="{{route('user.update', $user['id'])}}" method="POST" class="form">
+<form action="{{route('user.update', $user->id)}}" method="POST" class="form">
     @csrf
     @method('PUT')
     @include('user.partials.form')
