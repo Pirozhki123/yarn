@@ -1,9 +1,9 @@
 <div class="equipment_sub_group">
     <label for="equipment[]">備品名</label>
     <select id="equipment[]" name="equipment_id[]">
-        @foreach($formInfo['equipment'] as $equipment)
-            <option value="{{$equipment['id']}}" @selected(isset($oldEquipmentId) && $oldEquipmentId == $equipment['id'])>
-                {{$equipment['equipment_name']}}
+        @foreach($equipment as $equipment_item)
+            <option value="{{$equipment_item['id']}}" @selected(isset($oldEquipmentId) && $oldEquipmentId == $equipment_item['id'])>
+                {{$equipment_item['equipment_name']}}
             </option>
         @endforeach
     </select>

@@ -81,13 +81,10 @@ class EquipmentController extends Controller
         return redirect()->route('equipment.index');
     }
 
-    // FIXME:
     public function load_equipment()
     {
-        return view('management.form.report_equipment', [
-            'formInfo' => [
-                'equipment' => \App\Models\Equipment::all(),
-            ],
-        ]);
+        $equipment = Equipment::all();
+
+        return view('report.partials.report_equipment', compact('equipment'));
     }
 }

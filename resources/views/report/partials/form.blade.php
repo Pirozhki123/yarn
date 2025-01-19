@@ -69,16 +69,16 @@
     <input type="button" class="delete_equipment_button" value="削除">
     @if(old('equipment_id'))
         @foreach(old('equipment_id') as $key => $oldEquipmentId)
-            @include('management.form.report_equipment', [
+            @include('report.partials.report_equipment', [
                 'oldEquipmentId' => $oldEquipmentId,
                 'oldQuantity' => old('quantity.' . $key),
             ])
         @endforeach
-    @elseif(!empty($report->equipments))
-        @foreach($report->equipments as $equipment)
-            @include('management.form.report_equipment', [
-                'oldEquipmentId' => $equipment->pivot->equipment_id,
-                'oldQuantity' => $equipment->pivot->quantity,
+    @elseif(!empty($report->equipment))
+        @foreach($report->equipment as $equipment_item)
+            @include('report.partials.report_equipment', [
+                'oldEquipmentId' => $equipment_item->pivot->equipment_id,
+                'oldQuantity' => $equipment_item->pivot->quantity,
             ])
         @endforeach
     @endif

@@ -41,7 +41,7 @@ class Report extends Model
         return $this->belongsTo(Symbol::class);
     }
 
-    public function equipments()
+    public function equipment()
     {
         return $this->belongsToMany(Equipment::class ,'report_equipment')->withPivot('quantity');
     }

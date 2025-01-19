@@ -67,11 +67,11 @@ class ReportController extends Controller
         ]);
         // 備品交換保存処理
         if($request->has('equipment_id')) {
-            $equipments = [];
+            $equipment = [];
             foreach($request->input('equipment_id') as $key => $equipment_id) {
-                $equipments[$equipment_id] = ['quantity' => $request->input('quantity')[$key]];
+                $equipment[$equipment_id] = ['quantity' => $request->input('quantity')[$key]];
             }
-            $report->equipments()->attach($equipments);
+            $report->equipment()->attach($equipment);
         }
         // 機械情報更新
         Machine::updateMachineFromReport($request);
@@ -104,7 +104,7 @@ class ReportController extends Controller
         $report_types = config('constants.report_types');
         $products = Product::all();
         $equipment = Equipment::all();
-        $report = Report::with(['equipments'])->find($id);
+        $report = Report::with('equipment')->find($id);
 
         return view('report.edit', compact(
             'users',
@@ -136,11 +136,11 @@ class ReportController extends Controller
         ]);
         // 備品交換保存処理
         if($request->has('equipment_id')) {
-            $equipments = [];
+            $equipment = [];
             foreach($request->input('equipment_id') as $key => $equipment_id) {
-                $equipments[$equipment_id] = ['quantity' => $request->input('quantity')[$key]];
+                $equipment[$equipment_id] = ['quantity' => $request->input('quantity')[$key]];
             }
-            $repost->equipments()->sync($equipments);
+            $repost->equipment()->sync($equipment);
         }
 
         return redirect()->route('report.show', $id);
