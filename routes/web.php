@@ -3,13 +3,31 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MachineController;
-use App\Http\Controllers\MachineStatusController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SymbolController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 
+
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
 Route::get('/', function () {
     return view('dashboard');
 });
@@ -74,3 +92,4 @@ Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit'
 Route::put('/user/edit/{id}', [UserController::class, 'update'])->name('user.update');
 Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 Route::get('/user/confirm/{id}', [UserController::class, 'confirm'])->name('user.confirm');
+
