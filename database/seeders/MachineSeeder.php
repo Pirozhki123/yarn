@@ -52,7 +52,7 @@ class MachineSeeder extends Seeder
                 ];
 
                 Machine::create([
-                    'machine_status' => 'active',
+                    'machine_status' => array_rand(config('constants.machine_status')),
                     'product_id' => $product->id,
                     'size_id' => $size_id,
                     'symbol_id' => $symbol_id,
