@@ -10,3 +10,6 @@
 <label for="name">氏名</label>
 <input type="text" id="name" name="name" value="{{old('name', $user->name ?? null)}}">
 <br>
+<label for="admin">管理権限</label>
+<input type="checkbox" id="admin" name="admin" {{old('admin', $user->admin ?? null) == true ? 'checked' : null}}>
+<br>

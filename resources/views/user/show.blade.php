@@ -17,11 +17,13 @@
             <th>名前</th>
             <th>Eメールアドレス</th>
             <th>社員番号</th>
+            <th>管理権限</th>
         </tr>
         <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
             <td>{{$user->number}}</td>
+            <td>{{$user->admin ? '有' : '無'}}</td>
         </tr>
     </table>
 @endsection

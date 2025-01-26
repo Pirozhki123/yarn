@@ -27,11 +27,11 @@ class MachineSeeder extends Seeder
                     6 => 'BRAVO',
                 ];
                 $manufacture = [
-                    1 => '永田精機',
+                    1 => 'Nagata',
                     2 => 'Lonati',
                     3 => 'Lonati',
                     4 => 'Lonati',
-                    5 => '永田精機',
+                    5 => 'Nagata',
                     6 => 'Lonati',
                 ];
                 $needle_count = [

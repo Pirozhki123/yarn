@@ -31,6 +31,7 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
+            'admin' => $request->input('admin'),
         ]);
 
         return redirect()->route('user.show', $user->id);
@@ -60,10 +61,11 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         User::where('id', $id)->update([
-            'number' => $request->number,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
+            'number' => $request->input('number'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'admin' => $request->input('admin'),
         ]);
 
         return redirect()->route('user.show', $id);

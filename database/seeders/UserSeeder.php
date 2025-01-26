@@ -18,24 +18,28 @@ class UserSeeder extends Seeder
             'password' => 'test01',
             'number' => 111111,
             'name' => '保全太郎',
+            'admin' => true,
         ]);
         User::create([
             'email' => 'test02@example.com',
             'password' => 'test02',
             'number' => 222222,
             'name' => 'オペ太郎',
+            'admin' => true,
         ]);
         User::create([
             'email' => 'test03@example.com',
             'password' => 'test03',
             'number' => 333333,
             'name' => '検査太郎',
+            'admin' => true,
         ]);
         User::create([
             'email' => 'test04@example.com',
             'password' => 'test04',
             'number' => 444444,
             'name' => '材料太郎',
+            'admin' => true,
         ]);
     }
 }

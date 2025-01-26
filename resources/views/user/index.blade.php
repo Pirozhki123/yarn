@@ -10,6 +10,7 @@
                 <th>名前</th>
                 <th>Eメールアドレス</th>
                 <th>社員番号</th>
+                <th>管理権限</th>
                 <th>詳細</th>
             </tr>
             @foreach($users as $user)
@@ -17,6 +18,7 @@
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->number}}</td>
+                <td>{{$user->admin ? '有' : '無'}}</td>
                 <td>
                     <a href="user/show/{{$user->id}}">詳細</a>
                 </td>
