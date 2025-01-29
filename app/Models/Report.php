@@ -45,4 +45,21 @@ class Report extends Model
     {
         return $this->belongsToMany(Equipment::class ,'report_equipment')->withPivot('quantity');
     }
+
+    public static function getLatestReportsData()
+    {
+        $reports = Report::with(['machine', 'user', 'product', 'size', 'symbol', 'equipment'])->latest()->take(20)->get();
+        foreach($reports as $report) {
+            $latestReportsData[] = [
+                'report_type' => config('constants.report_types.' . $report->report_type),
+                'machine_number' => $report->machine->lane_number . '-' . $report->machine->lane_number,
+                'product_number' => $report->product->product_number,
+                'size' => $report->size->size,
+                'symbol' => $report->symbol->symbol,
+                'report' => $report->report,
+            ];
+        }
+
+        return $latestReportsData;
+    }
 }

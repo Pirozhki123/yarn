@@ -32,7 +32,7 @@ function resetSize() {
 }
 
 function resetSymbol() {
-    $('select#Symbol_id option').remove();
+    $('select#symbol_id option').remove();
     var product_id = $('#product_id').val();
     $.ajax({
         type: 'GET',

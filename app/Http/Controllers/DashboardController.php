@@ -1,19 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Machine;
+use App\Models\Report;
 
 class DashboardController extends Controller
 {
     public function index() {
-        foreach(config('constants.machine_status') as $key => $value) {
-            $label_items[] = $value;
-            $data_items[] = \App\Models\Machine::where('machine_status', $key)->count();
-        }
-        $data = [
-            'labels' => $label_items,
-            'data' => $data_items,
-        ];
+        $polarConfig = Machine::getPieChartConfig();
+        $operatingRates = Machine::getOperatingRate();
+        $latestReportsData = Report::getLatestReportsData();
 
-        return view('dashboard', compact('data'));
+        return view('dashboard', compact(
+            'polarConfig',
+            'operatingRates',
+            'latestReportsData'
+        ));
     }
 }

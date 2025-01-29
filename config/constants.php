@@ -17,5 +17,12 @@ return [
         'completed' => '終了',
         'switching' => '切替中',
         'inspecting' => '検査中',
-    ]
+    ],
+    'machine_status_color' => [
+        'active' => '#0000ff',
+        'fault' => '#ff0000',
+        'completed' => '#008000',
+        'switching' => '#ffff00',
+        'inspecting' => '#ffa500',
+    ],
 ];

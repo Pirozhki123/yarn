@@ -83,6 +83,7 @@
         @endforeach
     @endif
 </div>
+<!-- FIXME:optionの値が保持されない問題 -->
 <div class="option_group" style="display:none">
     <input type="checkbox" id="stop_machine" class="stop_machine" name="stop_machine">
     <label for="stop_machine" class="stop_machine">機械停止</label>

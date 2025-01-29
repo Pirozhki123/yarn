@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             MachineSeeder::class,
             UserSeeder::class,
+            ReportSeeder::class,
         ]);
     }
 }

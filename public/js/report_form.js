@@ -57,7 +57,6 @@ $(document).on('change', '#machine_id', function(){
 })
 
 $(document).on('change', 'input[type="radio"][name="symbol_type"]', function() {
-    console.log('test');
     if($(this).val() == 'existing') {
         $('.symbol_group .symbol_select').show();
         $('.symbol_group .symbol_input').hide();
