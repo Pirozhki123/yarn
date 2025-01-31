@@ -3,16 +3,22 @@
 @section('title', '機械詳細')
 
 @section('content')
-    <form action="{{route('machine.edit', $machine->id)}}" method="GET" class="get_form">
-        @csrf
-        <button type="submit">編集</button>
-    </form>
-    <form action="{{route('machine.destroy', $machine->id)}}" method="POST" class="delete_form">
-        @csrf
-        @method('DELETE')
-        <button type="submit">削除</button>
-    </form>
-    <table>
+<div class="row block-center">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 mt-5 center-block bg-light ">
+        <h1 class="m-2 text-center">機械情報</h1>
+        <div class="button-group mt-2 mb-2 d-flex justify-content-end">
+            <form action="{{route('machine.edit', $machine->id)}}" method="GET" class="get_form">
+                @csrf
+                <button class="btn btn-sm btn-primary" type="submit">編集</button>
+            </form>
+            <form action="{{route('machine.destroy', $machine->id)}}" method="POST" class="delete_form">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-danger ml-2" type="submit">削除</button>
+            </form>
+        </div>
+    <table class="table table-striped table-hover text-center mx-auto">
         <tr>
             <th>機械名</th>
             <th>メーカー</th>

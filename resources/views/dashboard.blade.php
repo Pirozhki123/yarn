@@ -3,7 +3,7 @@
 @section('title', '機械一覧')
 
 @section('content')
-<div class="row bg-secondary center-block">
+<div class="row center-block">
     <div class="col-md-1"></div>
     <div class="col-md-3 mt-5 center-block bg-light operating_rates_group">
         <h1 class="m-2 text-center">稼働率</h1>
