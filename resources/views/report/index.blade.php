@@ -6,7 +6,7 @@
     <div class="row center-block">
         <div class="col-md-2"></div>
         <div class="col-md-8 mt-5 center-block bg-light">
-            <h1 class="m-2 text-center">ユーザー一覧</h1>
+            <h1 class="m-2 text-center">報告一覧</h1>
             <div class="button-group mt-2 mb-2 d-flex justify-content-end">
                 <a class="btn btn-sm btn-primary" href="/report/create">新規</a>
             </div>
