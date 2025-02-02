@@ -85,6 +85,6 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::all();
 
-        return view('report.partials.report_equipment', compact('equipment'));
+        return view('report.partials.form.equipment', compact('equipment'));
     }
 }

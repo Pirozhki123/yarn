@@ -6,7 +6,7 @@
     <div class="row block-center">
         <div class="col-md-3"></div>
         <div class="col-md-6 mt-5 center-block bg-light">
-            <h1 class="m-2 text-center">ユーザー編集</h1>
+            <h1 class="h1 m-2 text-center">ユーザー編集</h1>
             <form action="{{route('user.update', $user->id)}}" method="POST" class="form">
                 @csrf
                 @method('PUT')
@@ -18,4 +18,6 @@
     </div>
 @endsection
 
-<script src="{{asset('/js/form.js')}}"></script>
+@push('scripts')
+    <script src="{{asset('/js/form.js')}}"></script>
+@endpush

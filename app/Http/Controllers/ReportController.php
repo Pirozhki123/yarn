@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ReportRequest;
 use App\Models\User;
 use App\Models\Machine;
@@ -22,7 +23,7 @@ class ReportController extends Controller
             'machine',
             'size',
             'symbol',
-        )->get();
+        )->orderBy('created_at', 'desc')->get();
         return view('report.index', compact('reports'));
     }
 
@@ -48,13 +49,118 @@ class ReportController extends Controller
         ));
     }
 
+    public function create_malfunction()
+    {
+        $user = Auth::user();
+        $machines = Machine::whereIn('machine_status', [
+            'active',
+        ])->get();
+        $equipment = Equipment::all();
+        $report_type = 'malfunction';
+
+        return view("report.create", compact(
+            'user',
+            'machines',
+            'equipment',
+            'report_type',
+        ));
+    }
+
+    public function create_completed()
+    {
+        $user = Auth::user();
+        $machines = Machine::whereIn('machine_status', [
+            'active',
+            'fault',
+        ])->get();
+        $equipment = Equipment::all();
+        $report_type = 'completed';
+
+        return view("report.create", compact(
+            'user',
+            'machines',
+            'equipment',
+            'report_type',
+        ));
+    }
+
+    public function create_switch()
+    {
+        $user = Auth::user();
+        $machines = Machine::whereIn('machine_status', [
+            'fault',
+            'completed',
+        ])->get();
+        $products = Product::all();
+        $equipment = Equipment::all();
+        $report_type = 'switch';
+
+        return view("report.create", compact(
+            'user',
+            'machines',
+            'products',
+            'equipment',
+            'report_type',
+        ));
+    }
+
+    public function create_repair()
+    {
+        $user = Auth::user();
+        $machines = Machine::whereIn('machine_status', [
+            'fault',
+        ])->get();
+        $equipment = Equipment::all();
+        $report_type = 'repair';
+
+        return view("report.create", compact(
+            'user',
+            'machines',
+            'equipment',
+            'report_type',
+        ));
+    }
+
+    public function create_inspection()
+    {
+        $user = Auth::user();
+        $machines = Machine::whereIn('machine_status', [
+            'inspecting',
+        ])->get();
+        $equipment = Equipment::all();
+        $report_type = 'inspection';
+
+        return view("report.create", compact(
+            'user',
+            'machines',
+            'equipment',
+            'report_type',
+        ));
+    }
+
+    public function create_symbol_change()
+    {
+        $user = Auth::user();
+        $machines = Machine::whereIn('machine_status', [
+            'active',
+            'fault',
+        ])->get();
+        $equipment = Equipment::all();
+        $report_type = 'symbol_change';
+
+        return view("report.create", compact(
+            'user',
+            'machines',
+            'equipment',
+            'report_type',
+        ));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(ReportRequest $request)
     {
-        // 新規記号登録処理
-        $symbolId = Symbol::createSymbolFromReport($request);
         // 報告保存処理
         $report = Report::create([
             'user_id' => $request->input('user_id'),
@@ -62,9 +168,11 @@ class ReportController extends Controller
             'report_type' => $request->input('report_type'),
             'product_id' => $request->input('product_id'),
             'size_id' => $request->input('size_id'),
-            'symbol_id' => $symbolId,
+            'symbol_id' => $request->input('symbol_id'),
             'report' => $request->input('report'),
         ]);
+        // 機械情報更新
+        Machine::updateMachineFromReport($request);
         // 備品交換保存処理
         if($request->has('equipment_id')) {
             $equipment = [];
@@ -73,10 +181,8 @@ class ReportController extends Controller
             }
             $report->equipment()->attach($equipment);
         }
-        // 機械情報更新
-        Machine::updateMachineFromReport($request);
 
-        return redirect()->route('report.show', $report->id);
+        return redirect()->route('report.index');
     }
 
     /**

@@ -111,8 +111,14 @@ class MachineController extends Controller
 
     public function load_machine($id)
     {
-        $result = Machine::find($id);
+        $machine = Machine::with(['product', 'size', 'symbol'])->find($id);
 
-        return $result;
+        return [
+            'product' => $machine->product,
+            'size' => $machine->size,
+            'symbol' => $machine->symbol,
+            'machine_status' => $machine->machine_status,
+            'machine_status_name' => config('constants.machine_status.' . $machine->machine_status)
+        ];
     }
 }

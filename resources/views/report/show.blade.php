@@ -6,18 +6,7 @@
 <div class="row block-center">
     <div class="col-md-2"></div>
     <div class="col-md-8 mt-5 center-block bg-light ">
-        <h1 class="m-2 text-center">報告詳細</h1>
-        <div class="button-group mt-2 mb-2 d-flex justify-content-end">
-            <form action="{{route('report.edit', $report->id)}}" method="GET" class="get_form">
-                @csrf
-                <button class="btn btn-sm btn-primary" type="submit">編集</button>
-            </form>
-            <form action="{{route('report.destroy', $report->id)}}" method="POST" class="delete_form">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-sm btn-danger ml-2" type="submit">削除</button>
-            </form>
-        </div>
+        <h1 class="h1 m-2 text-center">報告詳細</h1>
             <table class="table table-striped table-hover text-center mx-auto">
                 <thead>
                     <tr>

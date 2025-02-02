@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/report/create', [ReportController::class, 'create'])->name('report.create');
     Route::get('/report/edit', [ReportController::class, 'edit'])->name('report.edit');
     Route::get('/report/confirm', [ReportController::class, 'confirm'])->name('report.confirm');
+    foreach(config('constants.report_types') as $key => $value) {
+        Route::get('/report/create/' . $key, [ReportController::class, 'create_' . $key])->name('report.create.' . $key);
+    }
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/show/{id}', [ReportController::class, 'show'])->name('report.show');
