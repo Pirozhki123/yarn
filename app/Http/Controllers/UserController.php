@@ -4,22 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    private  $viewInfo = [
-        'key' => 'user',
-        'name' => 'ユーザー',
-        'route' => '/user',
-    ];
-
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => User::all()->toArray(),
-        ]);
+        $users = User::all();
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -27,9 +18,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return view('user.create');
     }
 
     /**
@@ -37,14 +26,15 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $viewItem = User::create([
-            'number' => $request['number'],
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => $request['password'],
+        $user = User::create([
+            'number' => $request->input('number'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'admin' => $request->input('admin'),
         ]);
 
-        return redirect()->route('user.show', ['id' => $viewItem['id']]);
+        return redirect()->route('user.show', $user->id);
     }
 
     /**
@@ -52,11 +42,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $viewItem = User::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $user = User::find($id);
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -64,11 +51,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = User::find($id);
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $user = User::find($id);
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -76,14 +60,15 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $viewItem = User::where('id', $id)->update([
-            'number' => $request->number,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
+        User::where('id', $id)->update([
+            'number' => $request->input('number'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'admin' => $request->input('admin'),
         ]);
 
-        return redirect()->route('user.show', ['id' => $id]);
+        return redirect()->route('user.show', $id);
     }
 
     /**
@@ -91,17 +76,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $viewItem = User::where('id', $id)->update([
+        User::where('id', $id)->update([
             'delete_flag' => true,
         ]);
 
         return redirect()->route('user.index');
-    }
-
-    public function confirm(UserRequest $request, $id)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
     }
 }

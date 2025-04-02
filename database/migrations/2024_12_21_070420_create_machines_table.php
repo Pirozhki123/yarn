@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('machine_status_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('size_id');
             $table->unsignedBigInteger('symbol_id');
+            $table->string('machine_status');
             $table->string("machine_name");
             $table->string("manufacture");
             $table->integer("needle_count");
@@ -26,7 +26,6 @@ return new class extends Migration
             $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
-            $table->foreign('machine_status_id')->references('id')->on('machine_statuses')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
@@ -36,9 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('machine_statuses', function (Blueprint $table) {
-            $table->dropForeign(['machine_status_id']);
-        });
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign(['product_id']);
         });

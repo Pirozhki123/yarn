@@ -3,27 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Machine;
-use App\Models\MachineStatus;
 use App\Models\Product;
 use App\Http\Requests\MachineRequest;
 
 class MachineController extends Controller
 {
-    private $viewInfo = [
-        'key' => 'machine',
-        'name' => '機械',
-        'route' => '/machine',
-    ];
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => Machine::all()->toArray(),
-        ]);
+        $machines = Machine::with('product', 'size', 'symbol')->get();
+        return view('machine.index', compact('machines'));
     }
 
     /**
@@ -31,15 +22,10 @@ class MachineController extends Controller
      */
     public function create()
     {
-        $formInfo = [
-            'machine_statuses' => MachineStatus::all(),
-            'products' => Product::all(),
-        ];
+        $machine_statuses = config('constants.machine_status');
+        $products = Product::all();
 
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-            'formInfo' => $formInfo,
-        ]);
+        return view('machine.create', compact('machine_statuses', 'products'));
     }
 
     /**
@@ -47,20 +33,20 @@ class MachineController extends Controller
      */
     public function store(MachineRequest $request)
     {
-        $viewItem = Machine::create([
-            'machine_status_id' => $request['machine_status_id'],
-            'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
-            'machine_name' => $request['machine_name'],
-            'manufacture' => $request['manufacture'],
-            'needle_count' => $request['needle_count'],
-            'needle_type' => $request['needle_type'],
-            'lane_number' => $request['lane_number'],
-            'machine_number' => $request['machine_number'],
+        $machine = Machine::create([
+            'machine_status' => $request->input('machine_status'),
+            'product_id' => $request->input('product_id'),
+            'size_id' => $request->input('size_id'),
+            'symbol_id' => $request->input('symbol_id'),
+            'machine_name' => $request->input('machine_name'),
+            'manufacture' => $request->input('manufacture'),
+            'needle_count' => $request->input('needle_count'),
+            'needle_type' => $request->input('needle_type'),
+            'lane_number' => $request->input('lane_number'),
+            'machine_number' => $request->input('machine_number'),
         ]);
 
-        return redirect()->route('machine.show', ['id' => $viewItem['id']]);
+        return redirect()->route('machine.show', $machine->id);
     }
 
     /**
@@ -68,11 +54,8 @@ class MachineController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Machine::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $machine = Machine::find($id);
+        return view('machine.show', compact('machine'));
     }
 
     /**
@@ -80,20 +63,17 @@ class MachineController extends Controller
      */
     public function edit($id)
     {
-        $formInfo = [
-            'machine_statuses' => MachineStatus::all(),
-            'products' => Product::all(),
-        ];
-        $viewItem = Machine::with([
-            'machine_status',
-            'product',
-        ])->find($id);
+        $machine_statuses = config('constants.machine_status');
+        $products = Product::all();
+        $machine = Machine::with(['product',])->find($id);
 
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'formInfo' => $formInfo,
-            'viewItem' => $viewItem,
-        ]);
+        return view('machine.edit',
+            compact(
+                'machine_statuses',
+                'products',
+                'machine'
+            )
+        );
     }
 
     /**
@@ -102,19 +82,19 @@ class MachineController extends Controller
     public function update(MachineRequest $request, $id)
     {
         Machine::where('id', $id)->update([
-            'machine_status_id' => $request['machine_status_id'],
-            'product_id' => $request['product_id'],
-            'size_id' => $request['size_id'],
-            'symbol_id' => $request['symbol_id'],
-            'machine_name' => $request['machine_name'],
-            'manufacture' => $request['manufacture'],
-            'needle_count' => $request['needle_count'],
-            'needle_type' => $request['needle_type'],
-            'lane_number' => $request['lane_number'],
-            'machine_number' => $request['machine_number'],
+            'machine_status' => $request->input('machine_status'),
+            'product_id' => $request->input('product_id'),
+            'size_id' => $request->input('size_id'),
+            'symbol_id' => $request->input('symbol_id'),
+            'machine_name' => $request->input('machine_name'),
+            'manufacture' => $request->input('manufacture'),
+            'needle_count' => $request->input('needle_count'),
+            'needle_type' => $request->input('needle_type'),
+            'lane_number' => $request->input('lane_number'),
+            'machine_number' => $request->input('machine_number'),
         ]);
 
-        return redirect()->route('machine.show', ['id' => $id]);
+        return redirect()->route('machine.show', $id);
     }
 
     /**
@@ -126,20 +106,19 @@ class MachineController extends Controller
             'delete_flag' => true,
         ]);
 
-        return back();
-    }
-
-    public function confirm(Machine $equipment)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return redirect()->route('machine.index');
     }
 
     public function load_machine($id)
     {
-        $result = Machine::find($id);
+        $machine = Machine::with(['product', 'size', 'symbol'])->find($id);
 
-        return $result;
+        return [
+            'product' => $machine->product,
+            'size' => $machine->size,
+            'symbol' => $machine->symbol,
+            'machine_status' => $machine->machine_status,
+            'machine_status_name' => config('constants.machine_status.' . $machine->machine_status)
+        ];
     }
 }

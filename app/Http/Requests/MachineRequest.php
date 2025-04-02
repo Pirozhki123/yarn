@@ -22,10 +22,10 @@ class MachineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'machine_status_id' => ['required', 'numeric', 'max:2147483647', 'exists:machine_statuses,id'],
             'product_id' => ['required', 'numeric', 'max:2147483647', 'exists:products,id'],
             'size_id' => ['required', 'numeric', 'max:2147483647', 'exists:sizes,id'],
             'symbol_id' => ['required', 'numeric', 'max:2147483647', 'exists:symbols,id'],
+            'machine_status' => ['required', 'string', 'max:255'],
             'machine_name' => ['required', 'string', 'max:255'],
             'manufacture' => ['required', 'string', 'max:255'],
             'needle_count' => ['required', 'numeric', 'max:500'],

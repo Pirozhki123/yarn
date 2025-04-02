@@ -7,21 +7,14 @@ use App\Http\Requests\EquipmentRequest;
 
 class EquipmentController extends Controller
 {
-    private $viewInfo = [
-        'key' => 'equipment',
-        'name' => '備品',
-        'route' => '/equipment',
-    ];
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('management.index', [
-            'viewInfo' => $this->viewInfo,
-            'viewItems' => Equipment::all()->toArray(),
-        ]);
+        $equipments = Equipment::all();
+
+        return view('equipment.index', compact('equipments'));
     }
 
     /**
@@ -29,9 +22,7 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        return view('management.create', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return view('equipment.create');
     }
 
     /**
@@ -39,12 +30,12 @@ class EquipmentController extends Controller
      */
     public function store(EquipmentRequest $request)
     {
-        $viewItem = Equipment::create([
-            'equipment_name' => $request['equipment_name'],
-            'quantity' => $request['quantity'],
+        $equipment = Equipment::create([
+            'equipment_name' => $request->input('equipment_name'),
+            'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->route('equipment.show', ['id' => $viewItem['id']]);
+        return redirect()->route('equipment.show', $equipment->id);
     }
 
     /**
@@ -52,12 +43,8 @@ class EquipmentController extends Controller
      */
     public function show($id)
     {
-        $viewItem = Equipment::find($id);
-        return view('management.show', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-            'id' => $id,
-        ]);
+        $equipment = Equipment::find($id);
+        return view('equipment.show', compact('equipment'));
     }
 
     /**
@@ -65,11 +52,8 @@ class EquipmentController extends Controller
      */
     public function edit($id)
     {
-        $viewItem = Equipment::find($id);
-        return view('management.edit', [
-            'viewInfo' => $this->viewInfo,
-            'viewItem' => $viewItem,
-        ]);
+        $equipment = Equipment::find($id);
+        return view('equipment.edit', compact('equipment'));
     }
 
     /**
@@ -78,11 +62,11 @@ class EquipmentController extends Controller
     public function update(EquipmentRequest $request, $id)
     {
         Equipment::where('id', $id)->update([
-            'equipment_name' => $request->equipment_name,
-            'quantity' => $request->quantity,
+            'equipment_name' => $request->input('equipment_name'),
+            'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->route('equipment.show', ['id' => $id]);
+        return redirect()->route('equipment.show', $id);
     }
 
     /**
@@ -94,22 +78,13 @@ class EquipmentController extends Controller
             'delete_flag' => true,
         ]);
 
-        return back();
-    }
-
-    public function confirm(Equipment $equipment)
-    {
-        return view('management.confirm', [
-            'viewInfo' => $this->viewInfo,
-        ]);
+        return redirect()->route('equipment.index');
     }
 
     public function load_equipment()
     {
-        return view('management.form.report_equipment', [
-            'formInfo' => [
-                'equipment' => \App\Models\Equipment::all(),
-            ],
-        ]);
+        $equipment = Equipment::all();
+
+        return view('report.partials.form.equipment', compact('equipment'));
     }
 }
