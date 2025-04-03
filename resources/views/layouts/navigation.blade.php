@@ -6,41 +6,42 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <image src="{{asset("image/yarn.png")}}" alt="IMG" class="block h-9 w-auto fill-current text-gray-800 ">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('overview')" :active="request()->routeIs('overview')">
+                        システム概要
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{-- {{ __('Dashboard') }} --}}
                         ダッシュボード
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('user.index')">
-                        ユーザー
+                <div class="nav-item dropdown hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link class="nav-link dropdown-toggle pt-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        新規報告
                     </x-nav-link>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach(config('constants.report_types') as $key => $report_type)
+                            <li><a class="dropdown-item" href="/report/create/{{$key}}">{{$report_type}}</a></li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('equipment.index')">
-                        備品
+                <div class="nav-item dropdown hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link class="nav-link dropdown-toggle pt-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        各種データ
                     </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('machine.index')">
-                        機械
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('product.index')">
-                        製品
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('report.index')">
-                        報告
-                    </x-nav-link>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{route('user.index')}}">ユーザー一覧</a></li>
+                        <li><a class="dropdown-item" href="{{route('equipment.index')}}">備品一覧</a></li>
+                        <li><a class="dropdown-item" href="{{route('machine.index')}}">機械一覧</a></li>
+                        <li><a class="dropdown-item" href="{{route('product.index')}}">製品一覧</a></li>
+                        <li><a class="dropdown-item" href="{{route('report.index')}}">報告一覧</a></li>
+                    </ul>
                 </div>
             </div>
 

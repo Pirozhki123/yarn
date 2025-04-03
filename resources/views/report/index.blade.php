@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="row center-block">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 mt-5 center-block bg-light overflow-x-auto rounded">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 mt-5 center-block bg-light overflow-x-auto rounded">
             <h1 class="h1 m-2 text-center">報告一覧</h1>
             <div class="button-group mt-2 mb-2 d-flex justify-content-end">
                 @foreach(config('constants.report_types') as $key => $report_type)
@@ -43,6 +43,6 @@
                 </table>
             @endif
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-1"></div>
     </div>
 @endsection
