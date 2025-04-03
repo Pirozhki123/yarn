@@ -44,4 +44,9 @@
             </x-primary-button>
         </div>
     </form>
+    <div class="mt-5 text-gray-500">
+        <h3>テスト用ユーザーログイン情報</h3>
+        <p>Email : test01@example.com</p>
+        <p>Password : test01</p>
+    </div>
 </x-guest-layout>
