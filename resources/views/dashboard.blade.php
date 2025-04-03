@@ -5,7 +5,7 @@
 @section('content')
 <div class="row center-block">
     <div class="col-md-1"></div>
-    <div class="col-md-3 mt-5 center-block bg-light operating_rates_group">
+    <div class="col-md-3 mt-5 center-block bg-light operating_rates_group rounded">
         <h1 class="h1 m-2 text-center">稼働率</h1>
         <table class="table table-striped table-hover text-center mx-auto">
             <thead>
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-6 mt-5 overflow-x-auto center-block bg-light">
+    <div class="col-md-6 mt-5 overflow-x-auto center-block bg-light rounded">
         <h1 class="h1 m-2 text-center">最新の報告</h1>
         <table class="table table-striped table-hover text-center mx-auto" id="latest_reports">
             <thead>

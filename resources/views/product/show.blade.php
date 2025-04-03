@@ -5,7 +5,7 @@
 @section('content')
     <div class="row block-center">
         <div class="col-md-2"></div>
-        <div class="col-md-8 mt-5 center-block bg-light ">
+        <div class="col-md-8 mt-5 center-block bg-light rounded">
             <h1 class="h1 m-2 text-center">製品詳細</h1>
             <div class="button-group mt-2 mb-2 d-flex justify-content-end">
                 <form action="{{route('product.edit', $product->id)}}" method="GET" class="get_form">
@@ -37,7 +37,7 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-2"></div>
-            <div class="col-md-4 center-block bg-light">
+            <div class="col-md-4 center-block bg-light rounded-start">
                 <h2 class="m-2 text-center">サイズ</h2>
                 <form action="{{route('size.store', $product['id'])}}" method="POST" class="form">
                     @csrf
@@ -69,7 +69,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-4 center-block bg-light">
+            <div class="col-md-4 center-block bg-light rounded-end">
                 <h2 class="m-2 text-center">識別記号</h2>
                 <form action="{{route('symbol.store', $product['id'])}}" method="POST" class="form">
                     @csrf

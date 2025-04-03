@@ -5,7 +5,7 @@
 @section('content')
     <div class="row block-center">
         <div class="col-md-2"></div>
-        <div class="col-md-8 mt-5 center-block bg-light ">
+        <div class="col-md-8 mt-5 center-block bg-light rounded">
             <h1 class="h1 m-2 text-center">ユーザー詳細</h1>
             <div class="button-group mt-2 mb-2 d-flex justify-content-end">
                 <form action="{{route('user.edit', $user->id)}}" method="GET" class="get_form">

@@ -5,7 +5,7 @@
 @section('content')
 <div class="row center-block">
     <div class="col-md-2"></div>
-    <div class="col-md-8 mt-5 center-block bg-light">
+    <div class="col-md-8 mt-5 center-block bg-light rounded">
         <h1 class="h1 m-2 text-center">機械一覧</h1>
         <div class="button-group mt-2 mb-2 d-flex justify-content-end">
             <a class="btn btn-sm btn-primary" href="/machine/create">新規</a>
